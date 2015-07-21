@@ -93,4 +93,9 @@
     else return proposedMaximumPosition;
 }
 
+-(void)splitView:(NSSplitView *)sender resizeSubviewsWithOldSize:(NSSize)oldSize
+{
+	[sender adjustSubviews];
+}
+
 @end
