@@ -26,8 +26,6 @@
 #import "SCEvents.h"
 #import "SCEvent.h"
 
-#define kCCBMaxTrackedDirectories 50
-
 enum
 {
     kCCBResTypeNone,
@@ -131,8 +129,6 @@ enum
     NSMutableArray* resourceObserver;
     
     NSArray* systemFontList;
-    
-    BOOL tooManyDirectoriesAdded;
 }
 
 + (ResourceManager*) sharedManager;
@@ -140,7 +136,6 @@ enum
 @property (nonatomic,readonly) NSMutableDictionary* directories;
 @property (nonatomic,retain) NSArray* activeDirectories;
 @property (nonatomic,readonly) NSString* mainActiveDirectoryPath;
-@property (nonatomic,assign) BOOL tooManyDirectoriesAdded;
 
 @property (nonatomic,readonly) NSArray* systemFontList;
 

@@ -1194,34 +1194,11 @@ static BOOL hideAllToNextSeparator;
 - (void) checkForTooManyDirectoriesInCurrentDoc
 {
     if (!currentDocument) return;
-    
-    if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
-    {
-        // Close document if it has too many sub directories
-        NSTabViewItem* item = [self tabViewItemFromDoc:currentDocument];
-        [tabView removeTabViewItem:item];
-        
-        [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
-        
-        // Notify the user
-        [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a file which is in a directory with very many sub directories. Please save your ccb-files in a directory together with the resources you use in your project."];
-    }
 }
 
 - (BOOL) checkForTooManyDirectoriesInCurrentProject
 {
     if (!projectSettings) return NO;
-    
-    if ([ResourceManager sharedManager].tooManyDirectoriesAdded)
-    {
-        [self closeProject];
-        
-        [ResourceManager sharedManager].tooManyDirectoriesAdded = NO;
-        
-        // Notify the user
-        [[CocosBuilderAppDelegate appDelegate] modalDialogTitle:@"Too Many Directories" message:@"You have created or opened a project which is in a directory with very many sub directories. Please save your project-files in a directory together with the resources you use in your project."];
-        return NO;
-    }
     return YES;
 }
 
@@ -1320,9 +1297,9 @@ static BOOL hideAllToNextSeparator;
     
     [self updateResourcePathsFromProjectSettings];
     
-    BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
+    //BOOL success = [self checkForTooManyDirectoriesInCurrentProject];
     
-    if (!success) return NO;
+    //if (!success) return NO;
     
     // Load autocompletions for all JS files
     NSArray* jsFiles = [CCBFileUtil filesInResourcePathsWithExtension:@"js"];
@@ -1397,7 +1374,7 @@ static BOOL hideAllToNextSeparator;
     [self addDocument:newDoc];
     self.hasOpenedDocument = YES;
     
-    [self checkForTooManyDirectoriesInCurrentDoc];
+    //[self checkForTooManyDirectoriesInCurrentDoc];
     
     // Remove selections
     [self setSelectedNodes:NULL];
@@ -1520,7 +1497,7 @@ static BOOL hideAllToNextSeparator;
     [[CocosScene cocosScene] setStageZoom:1];
     [[CocosScene cocosScene] setScrollOffset:ccp(0,0)];
     
-    [self checkForTooManyDirectoriesInCurrentDoc];
+    //[self checkForTooManyDirectoriesInCurrentDoc];
 }
 
 /*

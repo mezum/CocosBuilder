@@ -289,7 +289,6 @@
 @synthesize directories;
 @synthesize activeDirectories;
 @synthesize systemFontList;
-@synthesize tooManyDirectoriesAdded;
 
 #define kIgnoredExtensionsKey @"ignoredDirectoryExtensions"
 
@@ -723,12 +722,6 @@
 
 - (void) addDirectory:(NSString *)dirPath
 {
-    if ([directories count] > kCCBMaxTrackedDirectories)
-    {
-        tooManyDirectoriesAdded = YES;
-        return;
-    }
-    
     // Check if directory is already added (then add to its count)
     RMDirectory* dir = [directories objectForKey:dirPath];
     if (dir)
