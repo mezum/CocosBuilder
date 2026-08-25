@@ -80,6 +80,11 @@ static SequencerHandler* sharedSequencerHandler;
     
     [outlineHierarchy registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.node", @"com.cocosbuilder.texture", @"com.cocosbuilder.template", @"com.cocosbuilder.ccb", NULL]];
     
+    // The hierarchy column has a fixed width so that it lines up with the
+    // divider in front of the dope sheet; letting the outline column resize
+    // itself to the indentation would push it over that line.
+    [outlineHierarchy setAutoresizesOutlineColumn:NO];
+    
     [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
     
     return self;

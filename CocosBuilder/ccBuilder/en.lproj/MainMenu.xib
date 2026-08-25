@@ -1342,7 +1342,7 @@ CA
                                             <rect key="frame" x="0.0" y="0.0" width="601" height="66"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" indentationPerLevel="13" autoresizesOutlineColumn="YES" outlineTableColumn="571" id="570" customClass="SequencerOutlineView">
+                                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" indentationPerLevel="13" autoresizesOutlineColumn="NO" outlineTableColumn="571" id="570" customClass="SequencerOutlineView">
                                                     <rect key="frame" x="0.0" y="0.0" width="601" height="66"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="0.0" height="2"/>
