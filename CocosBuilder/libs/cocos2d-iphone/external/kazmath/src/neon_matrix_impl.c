@@ -23,7 +23,85 @@
 
 #include "kazmath/neon_matrix_impl.h"
 
-#if defined(__ARM_NEON__)
+#if defined(__ARM_NEON__) || defined(__ARM_NEON)
+
+#if defined(__aarch64__) || defined(__arm64__)
+
+/* AArch64 (ARM64) implementation.
+   v0-v7 and v16-v31 are caller saved, so q4-q7 (v8-v15) are left untouched. */
+
+void NEON_Matrix4Mul(const float* a, const float* b, float* output )
+{
+	__asm__ volatile
+	(
+	 // Load A & B - v8-v15 must be preserved so they are avoided
+	 "ld1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1] \n\t"	// v0-v3  = a
+	 "ld1 {v4.4s, v5.4s, v6.4s, v7.4s}, [%2] \n\t"	// v4-v7  = b
+
+	 // result = first column of B x first row of A
+	 "fmul v16.4s, v4.4s, v0.s[0]\n\t"
+	 "fmul v17.4s, v4.4s, v1.s[0]\n\t"
+	 "fmul v18.4s, v4.4s, v2.s[0]\n\t"
+	 "fmul v19.4s, v4.4s, v3.s[0]\n\t"
+
+	 // result += second column of B x second row of A
+	 "fmla v16.4s, v5.4s, v0.s[1]\n\t"
+	 "fmla v17.4s, v5.4s, v1.s[1]\n\t"
+	 "fmla v18.4s, v5.4s, v2.s[1]\n\t"
+	 "fmla v19.4s, v5.4s, v3.s[1]\n\t"
+
+	 // result += third column of B x third row of A
+	 "fmla v16.4s, v6.4s, v0.s[2]\n\t"
+	 "fmla v17.4s, v6.4s, v1.s[2]\n\t"
+	 "fmla v18.4s, v6.4s, v2.s[2]\n\t"
+	 "fmla v19.4s, v6.4s, v3.s[2]\n\t"
+
+	 // result += last column of B x last row of A
+	 "fmla v16.4s, v7.4s, v0.s[3]\n\t"
+	 "fmla v17.4s, v7.4s, v1.s[3]\n\t"
+	 "fmla v18.4s, v7.4s, v2.s[3]\n\t"
+	 "fmla v19.4s, v7.4s, v3.s[3]\n\t"
+
+	 // output = result registers
+	 "st1 {v16.4s, v17.4s, v18.4s, v19.4s}, [%0]"
+	 : // no output
+	 : "r" (output), "r" (a), "r" (b)	// input - note *value* of pointer doesn't change
+	 : "memory", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v16", "v17", "v18", "v19" //clobber
+	 );
+}
+
+void NEON_Matrix4Vector4Mul(const float* m, const float* v, float* output)
+{
+	__asm__ volatile
+	(
+	 // Load m & v - v8-v15 must be preserved so they are avoided
+	 "ld1 {v0.4s, v1.4s, v2.4s, v3.4s}, [%1]\n\t"	// v0-v3 = m
+	 "ld1 {v4.4s}, [%2]                     \n\t"	// v4    = v
+
+	 // result = first column of A x V.x
+	 "fmul v16.4s, v0.4s, v4.s[0]\n\t"
+
+	 // result += second column of A x V.y
+	 "fmla v16.4s, v1.4s, v4.s[1]\n\t"
+
+	 // result += third column of A x V.z
+	 "fmla v16.4s, v2.4s, v4.s[2]\n\t"
+
+	 // result += last column of A x V.w
+	 "fmla v16.4s, v3.4s, v4.s[3]\n\t"
+
+	 // output = result registers
+	 "st1 {v16.4s}, [%0]"
+
+	 : // no output
+	 : "r" (output), "r" (m), "r" (v)	// input - note *value* of pointer doesn't change
+	 : "memory", "v0", "v1", "v2", "v3", "v4", "v16" //clobber
+	 );
+}
+
+#else
+
+/* ARMv7 (AArch32) implementation. */
 
 void NEON_Matrix4Mul(const float* a, const float* b, float* output )
 {
@@ -93,5 +171,7 @@ void NEON_Matrix4Vector4Mul(const float* m, const float* v, float* output)
 	 : "memory", "q0", "q1", "q8", "q9", "q10", "q11" //clobber
 	 );
 }
+
+#endif // __aarch64__
 
 #endif
