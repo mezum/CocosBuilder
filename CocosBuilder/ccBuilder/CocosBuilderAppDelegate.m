@@ -154,7 +154,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 	
 	[director setDisplayStats:NO];
 	[director setProjection:kCCDirectorProjection2D];
-    //[cocosView openGLContext];
+    [cocosView prepareOpenGL];
     
 	[director setView:cocosView];
     

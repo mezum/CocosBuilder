@@ -119,6 +119,7 @@ enum {
     NSView* inspectorDocumentView;
     NSMutableDictionary* currentInspectorValues;
     
+    
     IBOutlet NSToolbar* toolbar;
     MainToolbarDelegate* toolbarDelegate;
     
