@@ -17,7 +17,7 @@
 		<key>SharedSettings</key>
 		<dict>
 			<key>ARCHS</key>
-			<string>$(ARCHS_STANDARD_32_BIT)</string>
+			<string>$(ARCHS_STANDARD)</string>
 			<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 			<string>4.0</string>
 			<key>CODE_SIGN_IDENTITY[sdk=iphoneos*]</key>
