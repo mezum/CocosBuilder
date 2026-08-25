@@ -6009,6 +6009,10 @@
 				);
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CocosBuilder;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/libs/MMMarkdown\"",
@@ -6056,6 +6060,10 @@
 				);
 				INFOPLIST_FILE = "ccBuilder/CocosBuilder-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CocosBuilder;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/libs/MMMarkdown\"",
