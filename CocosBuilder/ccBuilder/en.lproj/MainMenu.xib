@@ -1224,7 +1224,7 @@ CA
                                 <rect key="frame" x="0.0" y="0.0" width="601" height="549"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
-                                    <openGLView wantsLayer="YES" fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" wantsBestResolutionOpenGLSurface="NO" translatesAutoresizingMaskIntoConstraints="NO" id="603" customClass="CCBGLView">
+                                    <openGLView wantsLayer="YES" fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="603" customClass="CCBGLView">
                                         <rect key="frame" x="0.0" y="0.0" width="601" height="549"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <connections>
@@ -1603,13 +1603,13 @@ CA
                             <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="texturedSquare" trackingMode="momentary" id="1305">
                                 <font key="font" metaFont="system"/>
                                 <segments>
-                                    <segment toolTip="Zoom In" image="TB_zoomIn">
+                                    <segment toolTip="Zoom In" image="plus.magnifyingglass" catalog="system">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Reset View" image="TB_actualSize" tag="1">
+                                    <segment toolTip="Reset View" image="1.magnifyingglass" catalog="system" tag="1">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Zoom Out" image="TB_zoomOut" tag="2">
+                                    <segment toolTip="Zoom Out" image="minus.magnifyingglass" catalog="system" tag="2">
                                         <nil key="label"/>
                                     </segment>
                                 </segments>
@@ -1630,13 +1630,13 @@ CA
                             <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="capsule" trackingMode="selectAny" id="1787">
                                 <font key="font" metaFont="system"/>
                                 <segments>
-                                    <segment toolTip="Hide or Show the Resources" image="TB_leftPanel" selected="YES" tag="-1">
+                                    <segment toolTip="Hide or Show the Resources" image="inset.filled.leadingthird.rectangle" catalog="system" selected="YES" tag="-1">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Hide or Show the Timeline" image="TB_bottomPanel" selected="YES" tag="1">
+                                    <segment toolTip="Hide or Show the Timeline" image="inset.filled.bottomthird.rectangle" catalog="system" selected="YES" tag="1">
                                         <nil key="label"/>
                                     </segment>
-                                    <segment toolTip="Hide or Show the Inspector" image="TB_rightPanel" selected="YES">
+                                    <segment toolTip="Hide or Show the Inspector" image="inset.filled.trailingthird.rectangle" catalog="system" selected="YES">
                                         <nil key="label"/>
                                     </segment>
                                 </segments>
@@ -1867,14 +1867,14 @@ CA
         </menuItem>
     </objects>
     <resources>
-        <image name="TB_actualSize" width="29" height="14"/>
-        <image name="TB_bottomPanel" width="25" height="22"/>
-        <image name="TB_leftPanel" width="25" height="22"/>
-        <image name="TB_rightPanel" width="25" height="22"/>
-        <image name="TB_zoomIn" width="29" height="16"/>
-        <image name="TB_zoomOut" width="29" height="9"/>
+        <image name="1.magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="btn-dropdown-arrows" width="16" height="9"/>
         <image name="header-bg" width="19" height="17"/>
+        <image name="inset.filled.bottomthird.rectangle" catalog="system" width="18" height="14"/>
+        <image name="inset.filled.leadingthird.rectangle" catalog="system" width="18" height="14"/>
+        <image name="inset.filled.trailingthird.rectangle" catalog="system" width="18" height="14"/>
+        <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="seq-btn-play" width="22" height="16"/>
         <image name="seq-btn-restart" width="22" height="16"/>
         <image name="seq-btn-run" width="22" height="16"/>
