@@ -30,7 +30,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreGraphics/CGImage.h>
 
-#import "pvrtc.h"
+// #import "pvrtc.h"
 
 unsigned long upper_power_of_two(unsigned long v)
 {

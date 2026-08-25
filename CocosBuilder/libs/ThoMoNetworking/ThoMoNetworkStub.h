@@ -71,7 +71,7 @@
 
 @end
 
-NSString *const kThoMoNetworkInfoKeyUserMessage;
-NSString *const kThoMoNetworkInfoKeyData;
-NSString *const kThoMoNetworkInfoKeyRemoteConnectionIdString;
-NSString *const kThoMoNetworkInfoKeyLocalNetworkStub;
+extern NSString *const kThoMoNetworkInfoKeyUserMessage;
+extern NSString *const kThoMoNetworkInfoKeyData;
+extern NSString *const kThoMoNetworkInfoKeyRemoteConnectionIdString;
+extern NSString *const kThoMoNetworkInfoKeyLocalNetworkStub;
