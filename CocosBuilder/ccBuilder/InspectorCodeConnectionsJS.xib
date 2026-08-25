@@ -16,11 +16,10 @@
             <rect key="frame" x="0.0" y="0.0" width="233" height="75"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4">
+                <visualEffectView blendingMode="withinWindow" material="headerView" state="followsWindowActiveState" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4">
                     <rect key="frame" x="0.0" y="59" width="233" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="axesIndependently" image="header-bg" id="97"/>
-                </imageView>
+                </visualEffectView>
                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="39">
                     <rect key="frame" x="1" y="60" width="201" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -90,7 +89,4 @@
         </customView>
         <userDefaultsController representsSharedInstance="YES" id="140"/>
     </objects>
-    <resources>
-        <image name="header-bg" width="19" height="17"/>
-    </resources>
 </document>
