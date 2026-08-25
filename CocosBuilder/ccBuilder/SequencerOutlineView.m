@@ -33,7 +33,7 @@
     [super awakeFromNib];
     
     [self setGridStyleMask:NSTableViewSolidHorizontalGridLineMask];
-    [self setGridColor:[NSColor colorWithDeviceRed:0.85 green:0.85 blue:0.85 alpha:1]];
+    [self setGridColor:[NSColor gridColor]];
 }
 
 // Disable draggging of rows for expander and sequencer column

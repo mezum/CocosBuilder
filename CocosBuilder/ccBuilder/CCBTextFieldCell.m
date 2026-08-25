@@ -39,23 +39,16 @@
     if (self.controlView == self.controlView.window.firstResponder)
     {
         // Is being edited
-        
-        //if ([self isHighlighted])
-        //{
-            //return [NSColor whiteColor];
-        //}
-        //else
-        //{
-            return [NSColor blackColor];
-        //}
+        return [NSColor controlTextColor];
     }
     else if ([self isHighlighted])
     {
-        return [NSColor whiteColor];
+        // Drawn on top of the selection fill
+        return [NSColor alternateSelectedControlTextColor];
     }
     else
     {
-        return [NSColor blackColor];
+        return [NSColor controlTextColor];
     }
 }
 

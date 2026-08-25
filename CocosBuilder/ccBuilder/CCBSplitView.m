@@ -28,7 +28,7 @@
 
 - (NSColor*) dividerColor
 {
-    return [NSColor colorWithDeviceRed:0.42 green:0.42 blue:0.42 alpha:1];
+    return [NSColor separatorColor];
 }
 
 @end
