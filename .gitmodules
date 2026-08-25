@@ -1,6 +1,12 @@
 [submodule "CocosBuilder/libs/ssziparchive"]
 	path = CocosBuilder/libs/ssziparchive
-	url = https://github.com/vlidholt/ssziparchive
+	url = https://github.com/mezum/ssziparchive.git
 [submodule "CocosBuilder/libs/Fragaria"]
 	path = CocosBuilder/libs/Fragaria
-	url = https://github.com/vlidholt/Fragaria.git
+	url = https://github.com/mezum/Fragaria.git
+[submodule "Examples/CocosBuilderExample/libs/CCBReader"]
+	path = Examples/CocosBuilderExample/libs/CCBReader
+	url = https://github.com/mezum/CCBReader.git
+[submodule "CocosBuilder/libs/MMMarkdown"]
+	path = CocosBuilder/libs/MMMarkdown
+	url = https://github.com/mezum/MMMarkdown.git
