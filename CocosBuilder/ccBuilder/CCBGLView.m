@@ -48,6 +48,11 @@
 {
     [super awakeFromNib];
     
+    // cocos2d sets its GL viewport in points, so a high resolution backing
+    // surface would leave the scene rendered into the lower left quarter of the
+    // view on Retina displays.
+    [self setWantsBestResolutionOpenGLSurface:NO];
+    
     trackingTag = [self addTrackingRect:[self bounds] owner:self userData:NULL assumeInside:NO];
     
     [self registerForDraggedTypes:[NSArray arrayWithObjects: @"com.cocosbuilder.texture", @"com.cocosbuilder.template", @"com.cocosbuilder.ccb", NULL]];
