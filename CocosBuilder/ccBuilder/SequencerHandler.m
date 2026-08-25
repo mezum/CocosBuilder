@@ -34,6 +34,7 @@
 #import "SequencerExpandBtnCell.h"
 #import "SequencerStructureCell.h"
 #import "SequencerCell.h"
+#import "SequencerTimelineView.h"
 #import "SequencerSequence.h"
 #import "SequencerScrubberSelectionView.h"
 #import "SequencerKeyframe.h"
@@ -53,6 +54,7 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize dragAndDropEnabled;
 @synthesize currentSequence;
 @synthesize scrubberSelectionView;
+@synthesize timelineView;
 @synthesize timeDisplay;
 @synthesize outlineHierarchy;
 @synthesize timeScaleSlider;
@@ -625,6 +627,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) redrawTimeline:(BOOL) reload
 {
     [scrubberSelectionView setNeedsDisplay:YES];
+    // The ruler is drawn from the sequence's offset and scale, so it has to be
+    // redrawn whenever they change or it stops lining up with the playhead.
+    [timelineView setNeedsDisplay:YES];
     NSString* displayTime = [currentSequence currentDisplayTime];
     if (!displayTime) displayTime = @"00:00:00";
     [timeDisplay setStringValue:displayTime];

@@ -175,6 +175,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 {
     sequenceHandler = [[SequencerHandler alloc] initWithOutlineView:outlineHierarchy];
     sequenceHandler.scrubberSelectionView = scrubberSelectionView;
+    sequenceHandler.timelineView = timelineView;
     sequenceHandler.timeDisplay = timeDisplay;
     sequenceHandler.timeScaleSlider = timeScaleSlider;
     sequenceHandler.scroller = timelineScroller;
