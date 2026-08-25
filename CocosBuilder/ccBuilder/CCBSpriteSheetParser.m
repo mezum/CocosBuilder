@@ -116,7 +116,6 @@ static NSInteger strSort(id num1, id num2, void *context)
             
     tex = [[NSImage alloc] initWithSize:NSMakeSize([bitmapRep pixelsWide], [bitmapRep pixelsHigh])];
     [tex addRepresentation:bitmapRep];
-    [tex setFlipped:YES];
     [tex autorelease];
     
     NSDictionary* dictFrames = [dict objectForKey:@"frames"];
@@ -128,39 +127,66 @@ static NSInteger strSort(id num1, id num2, void *context)
     
     NSRect rect = NSRectFromString([frameInfo objectForKey:@"frame"]);
     BOOL rotated = [[frameInfo objectForKey:@"rotated"] boolValue];
+    
+    // The frame is listed at the sprite's own size; on the sheet a rotated one
+    // occupies a rect with its width and height swapped.
+    NSSize frameSize = rect.size;
     if (rotated)
     {
-        rect = NSMakeRect(rect.origin.x, rect.origin.y, rect.size.height, rect.size.width);
+        rect.size = NSMakeSize(rect.size.height, rect.size.width);
+    }
+    
+    // The sheet lists frames with the origin in the top left corner, which is
+    // also how CGImage addresses pixels, so the rect crops directly. (NSImage's
+    // -drawAtPoint:fromRect: measures from the bottom left instead, and the
+    // -setFlipped: that used to compensate for it has been a no-op since 10.8.)
+    CGImageRef cropped = CGImageCreateWithImageInRect([bitmapRep CGImage], NSRectToCGRect(rect));
+    if (!cropped)
+    {
+        return NULL;
     }
     
     NSImage* imgFrame;
     if (rotated)
     {
-        imgFrame = [[NSImage alloc] initWithSize:NSMakeSize(rect.size.height, rect.size.width)];
+        // cocos2d maps the stored frame's top left corner onto the sprite's
+        // bottom left one (see -[CCSprite setTextureCoords:]), so turning it a
+        // quarter turn counter clockwise puts it upright again. Draw into a
+        // bitmap of a known size rather than -lockFocus, which would give the
+        // main screen's backing scale instead of one pixel per pixel.
+        NSBitmapImageRep* uprightRep = [[[NSBitmapImageRep alloc]
+                                         initWithBitmapDataPlanes:NULL
+                                         pixelsWide:frameSize.width
+                                         pixelsHigh:frameSize.height
+                                         bitsPerSample:8
+                                         samplesPerPixel:4
+                                         hasAlpha:YES
+                                         isPlanar:NO
+                                         colorSpaceName:NSDeviceRGBColorSpace
+                                         bytesPerRow:0
+                                         bitsPerPixel:0] autorelease];
+        
+        NSGraphicsContext* gc = [NSGraphicsContext graphicsContextWithBitmapImageRep:uprightRep];
+        [NSGraphicsContext saveGraphicsState];
+        [NSGraphicsContext setCurrentContext:gc];
+        
+        CGContextRef ctx = [gc CGContext];
+        CGContextTranslateCTM(ctx, frameSize.width, 0);
+        CGContextRotateCTM(ctx, M_PI_2);
+        CGContextDrawImage(ctx, CGRectMake(0, 0, rect.size.width, rect.size.height), cropped);
+        
+        [NSGraphicsContext restoreGraphicsState];
+        
+        imgFrame = [[[NSImage alloc] initWithSize:frameSize] autorelease];
+        [imgFrame addRepresentation:uprightRep];
     }
     else
     {
-        imgFrame = [[NSImage alloc] initWithSize:rect.size];
+        imgFrame = [[[NSImage alloc] initWithCGImage:cropped size:frameSize] autorelease];
     }
-    [imgFrame setFlipped:YES];
-    [imgFrame lockFocus];
+    CGImageRelease(cropped);
     
-    if (rotated)
-    {
-        NSAffineTransform *transform = [NSAffineTransform transform];
-        [transform rotateByDegrees:-90];
-        [transform concat];
-        
-        [tex drawAtPoint:NSMakePoint(-rect.size.width, 0) fromRect:rect operation:NSCompositeCopy fraction:1];
-    }
-    else
-    {
-        [tex drawAtPoint:NSZeroPoint fromRect:rect operation:NSCompositeCopy fraction:1];
-    }
     
-    [imgFrame unlockFocus];
-    [imgFrame autorelease];
-        
     return imgFrame;
 }
 
