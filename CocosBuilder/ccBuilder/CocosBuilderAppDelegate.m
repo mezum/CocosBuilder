@@ -265,6 +265,38 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
+- (void) addSidebarMaterialTo:(NSView*)panel
+{
+    NSVisualEffectView* material = [[[NSVisualEffectView alloc] initWithFrame:[panel bounds]] autorelease];
+    [material setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [material setMaterial:NSVisualEffectMaterialSidebar];
+    [material setBlendingMode:NSVisualEffectBlendingModeBehindWindow];
+    [material setState:NSVisualEffectStateFollowsWindowActiveState];
+    
+    [panel addSubview:material positioned:NSWindowBelow relativeTo:NULL];
+}
+
+- (void) clearOpaqueBackgroundsIn:(NSView*)view
+{
+    if ([view isKindOfClass:[NSScrollView class]])
+    {
+        [(NSScrollView*)view setDrawsBackground:NO];
+    }
+    else if ([view isKindOfClass:[NSClipView class]])
+    {
+        [(NSClipView*)view setDrawsBackground:NO];
+    }
+    else if ([view isKindOfClass:[NSTableView class]])
+    {
+        [(NSTableView*)view setBackgroundColor:[NSColor clearColor]];
+    }
+    
+    for (NSView* subview in [view subviews])
+    {
+        [self clearOpaqueBackgroundsIn:subview];
+    }
+}
+
 - (void) setupGlassAppearance
 {
     // macOS 26 renders the window chrome on Liquid Glass. Put the editor's own
@@ -277,10 +309,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [windowGlass setCornerRadius:0];
     [mainView addSubview:windowGlass positioned:NSWindowBelow relativeTo:NULL];
     
-    // The inspector gets its own pane of glass. Its scroll view has to stop
-    // painting an opaque background, or it would cover the effect.
-    [inspectorScroll setDrawsBackground:NO];
-    [[inspectorScroll contentView] setDrawsBackground:NO];
+    // A pane of glass only refracts what is already inside the window; picking
+    // up the desktop behind the window is NSVisualEffectView's job. Back both
+    // side panels with sidebar material so they read as translucent.
+    [self addSidebarMaterialTo:leftPanel];
+    [self addSidebarMaterialTo:rightPanel];
     
     NSGlassEffectView* inspectorGlass = [[[NSGlassEffectView alloc] initWithFrame:rightPanel.bounds] autorelease];
     [inspectorGlass setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -291,6 +324,11 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [inspectorGlass setContentView:inspectorScroll];
     [inspectorScroll setFrame:[inspectorGlass bounds]];
     [inspectorScroll setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    
+    // Anything stacked over the material has to stop painting a background of
+    // its own, or the panel goes opaque again.
+    [self clearOpaqueBackgroundsIn:leftPanel];
+    [self clearOpaqueBackgroundsIn:rightPanel];
 }
 
 - (void) setupAutoCompleteHandler
@@ -336,7 +374,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self setupTabBar];
     [self setupInspectorPane];
-    [self setupGlassAppearance];
     [self setupCocos2d];
     [self setupSequenceHandler];
     [self updateInspectorFromSelection];
@@ -357,6 +394,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupToolbar];
 
     [self setupResourceManager];
+    [self setupGlassAppearance];
     [self setupGUIWindow];
     
     [self setupPlayerConnection];
