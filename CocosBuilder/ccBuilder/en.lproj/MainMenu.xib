@@ -1593,14 +1593,14 @@ CA
             <toolbar key="toolbar" implicitIdentifier="6C6ECFE0-CD8C-41C0-A926-B653D69B96E6" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="1224">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="1358"/>
-                    <toolbarItem implicitItemIdentifier="13E602E1-2514-4F5A-BE05-2AF5460BB7D6" label="Zoom" paletteLabel="Zoom" id="1306">
+                    <toolbarItem implicitItemIdentifier="13E602E1-2514-4F5A-BE05-2AF5460BB7D6" label="Zoom" paletteLabel="Zoom" bordered="YES" id="1306">
                         <nil key="toolTip"/>
                         <size key="minSize" width="104" height="25"/>
-                        <size key="maxSize" width="143" height="25"/>
+                        <size key="maxSize" width="104" height="25"/>
                         <segmentedControl key="view" verticalHuggingPriority="750" id="1304">
                             <rect key="frame" x="0.0" y="14" width="139" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="texturedSquare" trackingMode="momentary" id="1305">
+                            <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fillEqually" style="texturedSquare" trackingMode="momentary" id="1305">
                                 <font key="font" metaFont="system"/>
                                 <segments>
                                     <segment toolTip="Zoom In" image="plus.magnifyingglass" catalog="system">
@@ -1620,9 +1620,9 @@ CA
                             </connections>
                         </segmentedControl>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="192F0C33-B31A-4EB0-B19F-5D6E22DE76FC" label="View" paletteLabel="View" id="1788">
+                    <toolbarItem implicitItemIdentifier="192F0C33-B31A-4EB0-B19F-5D6E22DE76FC" label="View" paletteLabel="View" bordered="YES" id="1788">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="50" height="23"/>
+                        <size key="minSize" width="132" height="25"/>
                         <size key="maxSize" width="132" height="25"/>
                         <segmentedControl key="view" wantsLayer="YES" verticalHuggingPriority="750" id="1786">
                             <rect key="frame" x="0.0" y="14" width="132" height="23"/>
