@@ -1098,30 +1098,30 @@ CA
                         <rect key="frame" x="0.0" y="0.0" width="250" height="678"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                         <subviews>
-                            <splitView fixedFrame="YES" dividerStyle="thin" translatesAutoresizingMaskIntoConstraints="NO" id="1996">
+                            <splitView fixedFrame="YES" dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="1996">
                                 <rect key="frame" x="0.0" y="0.0" width="250" height="678"/>
                                 <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                 <subviews>
                                     <customView fixedFrame="YES" id="1998">
-                                        <rect key="frame" x="0.0" y="0.0" width="250" height="243"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="250" height="240"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </customView>
                                     <customView fixedFrame="YES" id="2000" userLabel="Project Panel">
-                                        <rect key="frame" x="0.0" y="244" width="250" height="434"/>
+                                        <rect key="frame" x="0.0" y="250" width="250" height="428"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                         <subviews>
                                             <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2008">
-                                                <rect key="frame" x="0.0" y="16" width="250" height="404"/>
+                                                <rect key="frame" x="0.0" y="16" width="250" height="398"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" copiesOnScroll="NO" id="kMV-jq-ZBQ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="404"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="398"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="16" indentationPerLevel="13" autoresizesOutlineColumn="YES" outlineTableColumn="2012" id="2011" customClass="ResourceManagerOutlineView">
-                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="404"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="398"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="gridColor" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
                                                             <tableColumns>
                                                                 <tableColumn width="211" minWidth="16" maxWidth="240" id="2012">
@@ -1132,14 +1132,13 @@ CA
                                                                     <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Text" id="2013" customClass="CCBTextFieldCell">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 </tableColumn>
                                                             </tableColumns>
                                                         </outlineView>
                                                     </subviews>
-                                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="2010">
                                                     <rect key="frame" x="-100" y="-100" width="353" height="11"/>
@@ -1150,22 +1149,17 @@ CA
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
-                                            <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2007">
-                                                <rect key="frame" x="0.0" y="420" width="250" height="15"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="axesIndependently" image="header-bg" id="2014"/>
-                                            </imageView>
                                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2006">
-                                                <rect key="frame" x="3" y="420" width="250" height="14"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Project" id="2015">
+                                                <rect key="frame" x="0.0" y="412" width="250" height="16"/>
+                                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" title="Project" id="2015">
                                                     <font key="font" metaFont="smallSystem"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
                                             <box autoresizesSubviews="NO" horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2005">
-                                                <rect key="frame" x="247" y="0.0" width="5" height="434"/>
+                                                <rect key="frame" x="247" y="0.0" width="5" height="428"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                             </box>
                                             <box autoresizesSubviews="NO" verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2004">
@@ -1173,14 +1167,14 @@ CA
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             </box>
                                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2003">
-                                                <rect key="frame" x="0.0" y="1" width="26" height="15"/>
+                                                <rect key="frame" x="15" y="1" width="45" height="15"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <popUpButtonCell key="cell" type="bevel" title="Item 1" bezelStyle="regularSquare" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" preferredEdge="maxY" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="2020" id="2016">
+                                                <popUpButtonCell key="cell" type="bevel" title="Item 1" bezelStyle="regularSquare" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" preferredEdge="maxY" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="2020" id="2016">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="message"/>
                                                     <menu key="menu" title="OtherViews" autoenablesItems="NO" id="2017">
                                                         <items>
-                                                            <menuItem title="Item 1" state="on" image="toolbar-btn-add" hidden="YES" id="2020"/>
+                                                            <menuItem title="Item 1" state="on" image="plus" catalog="system" hidden="YES" id="2020"/>
                                                             <menuItem title="New Interface File..." id="2019">
                                                                 <connections>
                                                                     <action selector="newDocument:" target="494" id="2025"/>
@@ -1202,10 +1196,6 @@ CA
                                                     </binding>
                                                 </connections>
                                             </popUpButton>
-                                            <box autoresizesSubviews="NO" horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="2002">
-                                                <rect key="frame" x="27" y="0.0" width="5" height="15"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            </box>
                                         </subviews>
                                     </customView>
                                 </subviews>
@@ -1237,23 +1227,22 @@ CA
                                 <rect key="frame" x="0.0" y="550" width="601" height="128"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
-                                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1236">
-                                        <rect key="frame" x="0.0" y="82" width="250" height="16"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="axesIndependently" image="header-bg" id="1239"/>
-                                    </imageView>
-                                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1533">
+                                    <imageView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1533">
                                         <rect key="frame" x="0.0" y="97" width="601" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="axesIndependently" image="seq-ctrl-bg" id="1534"/>
+                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="axesIndependently" id="1534"/>
                                     </imageView>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1237">
-                                        <rect key="frame" x="5" y="83" width="220" height="14"/>
+                                    <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Om7-jH-xpJ">
+                                        <rect key="frame" x="10" y="23" width="163" height="96"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="Structure" id="1238">
+                                    </customView>
+                                    <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1237">
+                                        <rect key="frame" x="0.0" y="82" width="250" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" title="Structure" id="1238">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1666">
@@ -1406,20 +1395,20 @@ CA
                                         </scroller>
                                     </scrollView>
                                     <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1537">
-                                        <rect key="frame" x="9" y="100" width="156" height="25"/>
+                                        <rect key="frame" x="9" y="100" width="154" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="texturedSquare" trackingMode="momentary" id="1538">
                                             <font key="font" metaFont="system"/>
                                             <segments>
-                                                <segment image="seq-btn-restart" width="30"/>
-                                                <segment image="seq-btn-stepback" width="30" tag="1"/>
-                                                <segment image="seq-btn-stepforward" width="30" tag="2">
+                                                <segment image="backward.end.fill" catalog="system" width="30"/>
+                                                <segment image="backward.frame.fill" catalog="system" width="30" tag="1"/>
+                                                <segment image="forward.frame.fill" catalog="system" width="30" tag="2">
                                                     <nil key="label"/>
                                                 </segment>
-                                                <segment image="seq-btn-stop" width="30" tag="3">
+                                                <segment image="stop.fill" catalog="system" width="30" tag="3">
                                                     <nil key="label"/>
                                                 </segment>
-                                                <segment image="seq-btn-play" width="30" tag="4">
+                                                <segment image="play.fill" catalog="system" width="30" tag="4">
                                                     <nil key="label"/>
                                                 </segment>
                                             </segments>
@@ -1429,10 +1418,10 @@ CA
                                             <binding destination="494" name="enabled" keyPath="hasOpenedDocument" id="1649"/>
                                         </connections>
                                     </segmentedControl>
-                                    <segmentedControl verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1559">
+                                    <segmentedControl hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1559">
                                         <rect key="frame" x="174" y="100" width="32" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="texturedSquare" trackingMode="momentary" id="1560">
+                                        <segmentedCell key="cell" enabled="NO" borderStyle="border" alignment="left" segmentDistribution="fill" style="texturedSquare" trackingMode="momentary" id="1560">
                                             <font key="font" metaFont="system"/>
                                             <segments>
                                                 <segment image="seq-btn-run" width="30"/>
@@ -1452,18 +1441,13 @@ CA
                                             </binding>
                                         </connections>
                                     </segmentedControl>
-                                    <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1555">
-                                        <rect key="frame" x="510" y="100" width="84" height="24"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" image="seq-timedisplay-bg" id="1556"/>
-                                    </imageView>
                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1557">
-                                        <rect key="frame" x="507" y="106" width="90" height="17"/>
+                                        <rect key="frame" x="509" y="106" width="86" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="00:00:00" id="1558">
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="00:00:00" drawsBackground="YES" id="1558">
                                             <font key="font" size="13" name="Menlo-Regular"/>
                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1597">
@@ -1567,7 +1551,6 @@ CA
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="607">
                                     <rect key="frame" x="-100" y="-100" width="183" height="15"/>
@@ -1596,7 +1579,7 @@ CA
                     <toolbarItem implicitItemIdentifier="13E602E1-2514-4F5A-BE05-2AF5460BB7D6" label="Zoom" paletteLabel="Zoom" bordered="YES" id="1306">
                         <nil key="toolTip"/>
                         <size key="minSize" width="104" height="25"/>
-                        <size key="maxSize" width="104" height="25"/>
+                        <size key="maxSize" width="139" height="25"/>
                         <segmentedControl key="view" verticalHuggingPriority="750" id="1304">
                             <rect key="frame" x="0.0" y="14" width="139" height="25"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -1622,7 +1605,7 @@ CA
                     </toolbarItem>
                     <toolbarItem implicitItemIdentifier="192F0C33-B31A-4EB0-B19F-5D6E22DE76FC" label="View" paletteLabel="View" bordered="YES" id="1788">
                         <nil key="toolTip"/>
-                        <size key="minSize" width="132" height="25"/>
+                        <size key="minSize" width="132" height="23"/>
                         <size key="maxSize" width="132" height="25"/>
                         <segmentedControl key="view" wantsLayer="YES" verticalHuggingPriority="750" id="1786">
                             <rect key="frame" x="0.0" y="14" width="132" height="23"/>
@@ -1868,23 +1851,20 @@ CA
     </objects>
     <resources>
         <image name="1.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="backward.end.fill" catalog="system" width="15" height="12"/>
+        <image name="backward.frame.fill" catalog="system" width="17" height="12"/>
         <image name="btn-dropdown-arrows" width="16" height="9"/>
-        <image name="header-bg" width="19" height="17"/>
+        <image name="forward.frame.fill" catalog="system" width="17" height="12"/>
         <image name="inset.filled.bottomthird.rectangle" catalog="system" width="18" height="14"/>
         <image name="inset.filled.leadingthird.rectangle" catalog="system" width="18" height="14"/>
         <image name="inset.filled.trailingthird.rectangle" catalog="system" width="18" height="14"/>
         <image name="minus.magnifyingglass" catalog="system" width="16" height="15"/>
+        <image name="play.fill" catalog="system" width="12" height="13"/>
+        <image name="plus" catalog="system" width="14" height="13"/>
         <image name="plus.magnifyingglass" catalog="system" width="16" height="15"/>
-        <image name="seq-btn-play" width="22" height="16"/>
-        <image name="seq-btn-restart" width="22" height="16"/>
         <image name="seq-btn-run" width="22" height="16"/>
-        <image name="seq-btn-stepback" width="22" height="16"/>
-        <image name="seq-btn-stepforward" width="22" height="16"/>
-        <image name="seq-btn-stop" width="22" height="16"/>
-        <image name="seq-ctrl-bg" width="32" height="32"/>
         <image name="seq-next-seq" width="8" height="9"/>
         <image name="seq-scaleslide-bg" width="117" height="24"/>
-        <image name="seq-timedisplay-bg" width="84" height="24"/>
-        <image name="toolbar-btn-add" width="14" height="14"/>
+        <image name="stop.fill" catalog="system" width="14" height="13"/>
     </resources>
 </document>
