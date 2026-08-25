@@ -41,6 +41,10 @@
         [self setAlphaValue:1.0];
         // Turn off opacity so that the parts of the window that are not drawn into are transparent.
         [self setOpaque:NO];
+        // On layer-backed AppKit (macOS 10.14+) the window background is composited
+        // below the content view, so it must be cleared explicitly or it covers the
+        // CCBGLView underneath.
+        [self setBackgroundColor:[NSColor clearColor]];
     }
     return self;
 }
