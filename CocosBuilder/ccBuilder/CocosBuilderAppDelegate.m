@@ -53,6 +53,7 @@
 #import "NSString+RelativePath.h"
 #import "CCBTransparentWindow.h"
 #import "CCBTransparentView.h"
+#import <QuartzCore/QuartzCore.h>
 #import "NotesLayer.h"
 #import "ResolutionSetting.h"
 #import "ProjectSettingsWindow.h"
@@ -104,6 +105,7 @@
 #define kCCBPanelResizeHandleWidth 6
 #define kCCBMinPanelWidth 150
 #define kCCBMinCanvasWidth 240
+#define kCCBPanelAnimationDuration 0.22
 
 // A thin grab area along a side panel's inner edge. Dragging it hands the new
 // width to the app delegate, which lays the three columns out again.
@@ -2909,106 +2911,50 @@ static BOOL hideAllToNextSeparator;
 - (IBAction) pressedPanelVisibility:(id)sender
 {
     NSSegmentedControl* sc = sender;
-    [window disableUpdatesUntilFlush];
     
-    // Left Panel
-    if ([sc isSelectedForSegment:0]) {
+    BOOL showLeft = [sc isSelectedForSegment:0];
+    BOOL showRight = [sc isSelectedForSegment:2];
+    BOOL leftChanged = (showLeft == [leftPanel isHidden]);
+    BOOL rightChanged = (showRight == [rightPanel isHidden]);
+    
+    if (leftChanged || rightChanged)
+    {
+        // Work out where all three columns end up first, so that toggling both
+        // panels at once still lands on the right layout.
+        CGFloat totalWidth = [mainView bounds].size.width;
+        CGFloat leftWidth = leftPanel.frame.size.width;
+        CGFloat rightWidth = rightPanel.frame.size.width;
         
-        if ([leftPanel isHidden]) {
-            // Show left panel & shrink splitHorizontalView
-            NSRect origRect = leftPanel.frame;
-            NSRect transitionFrame = NSMakeRect(0,
-                                                origRect.origin.y,
-                                                origRect.size.width,
-                                                origRect.size.height);
-                                                     
-            [leftPanel setFrame:transitionFrame];
-            origRect = splitHorizontalView.frame;
-            transitionFrame = NSMakeRect(leftPanel.frame.size.width,
-                                         origRect.origin.y,
-                                         origRect.size.width-leftPanel.frame.size.width,
-                                         origRect.size.height);
-                                               
-            [splitHorizontalView setFrame:transitionFrame];
-            
-            [leftPanel setHidden:NO];
-            [leftPanel setNeedsDisplay:YES];
-            [splitHorizontalView setNeedsDisplay:YES];
-        }
-    } else {
+        NSRect leftFrame = leftPanel.frame;
+        leftFrame.origin.x = showLeft ? 0 : -leftWidth;
         
-        if (![leftPanel isHidden]) {
-            // Hide left panel & expand splitView
-            NSRect origRect = leftPanel.frame;
-            NSRect transitionFrame = NSMakeRect(-origRect.size.width,
-                                                 origRect.origin.y,
-                                                 origRect.size.width,
-                                                 origRect.size.height);
-                                                      
-            [leftPanel setFrame:transitionFrame];
-            origRect = splitHorizontalView.frame;
-            transitionFrame = NSMakeRect(0,
-                                         origRect.origin.y,
-                                         origRect.size.width+leftPanel.frame.size.width,
-                                         origRect.size.height);
-                                         
-            [splitHorizontalView setFrame:transitionFrame];
+        NSRect rightFrame = rightPanel.frame;
+        rightFrame.origin.x = showRight ? totalWidth - rightWidth : totalWidth;
+        
+        NSRect canvasFrame = splitHorizontalView.frame;
+        canvasFrame.origin.x = showLeft ? leftWidth : 0;
+        canvasFrame.size.width = (showRight ? totalWidth - rightWidth : totalWidth) - canvasFrame.origin.x;
+        
+        // A hidden view does not animate, so reveal it before sliding it in and
+        // hide it again only once it has slid out.
+        if (showLeft) [leftPanel setHidden:NO];
+        if (showRight) [rightPanel setHidden:NO];
+        
+        [NSAnimationContext runAnimationGroup:^(NSAnimationContext* context) {
+            [context setDuration:kCCBPanelAnimationDuration];
+            [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
             
-            [leftPanel setHidden:YES];
-            [leftPanel setNeedsDisplay:YES];
-            [splitHorizontalView setNeedsDisplay:YES];
-        }
+            if (leftChanged) [[leftPanel animator] setFrame:leftFrame];
+            if (rightChanged) [[rightPanel animator] setFrame:rightFrame];
+            [[splitHorizontalView animator] setFrame:canvasFrame];
+        } completionHandler:^{
+            if (!showLeft) [leftPanel setHidden:YES];
+            if (!showRight) [rightPanel setHidden:YES];
+        }];
     }
     
-    
-    // Right Panel (InspectorScroll)
-    if ([sc isSelectedForSegment:2]) {
-        
-        if ([rightPanel isHidden]) {
-            // Show right panel & shrink splitView
-            [rightPanel setHidden:NO];
-            NSRect origRect = rightPanel.frame;
-            NSRect transitionFrame = NSMakeRect(origRect.origin.x-origRect.size.width,
-                                                origRect.origin.y,
-                                                origRect.size.width,
-                                                origRect.size.height);
-                                                
-            [rightPanel setFrame:transitionFrame];
-            origRect = splitHorizontalView.frame;
-            transitionFrame = NSMakeRect(origRect.origin.x,
-                                        origRect.origin.y,
-                                        origRect.size.width-rightPanel.frame.size.width,
-                                         origRect.size.height);
-                                        
-            [splitHorizontalView setFrame:transitionFrame];
-            [rightPanel setNeedsDisplay:YES];
-            [splitHorizontalView setNeedsDisplay:YES];
-        }
-    } else {
-        
-        if (![rightPanel isHidden]) {
-            // Hide right panel & expand splitView
-            NSRect origRect = rightPanel.frame;
-            NSRect transitionFrame = NSMakeRect(origRect.origin.x+origRect.size.width,
-                                                origRect.origin.y,
-                                                origRect.size.width,
-                                                origRect.size.height);
-                                                      
-            [rightPanel setFrame:transitionFrame];
-            origRect = splitHorizontalView.frame;
-            transitionFrame = NSMakeRect(origRect.origin.x,
-                                         origRect.origin.y,
-                                         origRect.size.width+rightPanel.frame.size.width,
-                                         origRect.size.height);
-                                               
-            [splitHorizontalView setFrame:transitionFrame];
-            [rightPanel setHidden:YES];
-            [rightPanel setNeedsDisplay:YES];
-            [splitHorizontalView setNeedsDisplay:YES];
-        }
-    }
-    
-    if ([sc selectedSegment] == 1) {
+    if ([sc selectedSegment] == 1)
+    {
         [splitHorizontalView toggleBottomView:[sc isSelectedForSegment:1]];
     }
 }
