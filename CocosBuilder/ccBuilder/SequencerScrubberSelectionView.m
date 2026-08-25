@@ -211,10 +211,10 @@
         // Draw the selection rectangle
         NSRect rect = NSMakeRect(x, y-1, w+1, h+1);
         
-        [[NSColor colorWithDeviceRed:0.83f green:0.88f blue:1.00f alpha:0.50f] set];
+        [[[NSColor selectedContentBackgroundColor] colorWithAlphaComponent:0.5f] set];
         [NSBezierPath fillRect: rect];
         
-        [[NSColor colorWithDeviceRed:0.45f green:0.55f blue:0.82f alpha:1.00f] set];
+        [[NSColor selectedContentBackgroundColor] set];
         NSFrameRect(rect);
     }
     

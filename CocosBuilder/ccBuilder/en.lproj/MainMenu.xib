@@ -1127,7 +1127,7 @@ CA
                                                                 <tableColumn width="211" minWidth="16" maxWidth="240" id="2012">
                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                                     </tableHeaderCell>
                                                                     <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Text" id="2013" customClass="CCBTextFieldCell">
                                                                         <font key="font" metaFont="smallSystem"/>
@@ -1363,7 +1363,7 @@ CA
                                                         <tableColumn identifier="structure" width="234" minWidth="234" maxWidth="234" id="571">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Structure">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" white="0.33333298560000002" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                             </tableHeaderCell>
                                                             <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" allowsUndo="NO" alignment="left" title="Text Cell" id="574" customClass="SequencerStructureCell">
                                                                 <font key="font" metaFont="smallSystem"/>
@@ -1506,7 +1506,7 @@ CA
                                             <rect key="frame" x="1" y="0.0" width="599" height="1"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
-                                        <color key="borderColor" white="0.41532258059999999" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="borderColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="1550">
@@ -1516,7 +1516,7 @@ CA
                                             <rect key="frame" x="0.0" y="1" width="1" height="96"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
-                                        <color key="borderColor" white="0.41532258059999999" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="borderColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="1551">
@@ -1526,7 +1526,7 @@ CA
                                             <rect key="frame" x="0.0" y="1" width="1" height="64"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
-                                        <color key="borderColor" white="0.0" alpha="0.20000000000000001" colorSpace="calibratedWhite"/>
+                                        <color key="borderColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="1552">
@@ -1536,7 +1536,7 @@ CA
                                             <rect key="frame" x="1" y="0.0" width="599" height="1"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
-                                        <color key="borderColor" white="0.41532258059999999" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="borderColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                 </subviews>
