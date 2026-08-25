@@ -153,11 +153,12 @@
 {
     if([self isHighlighted])
     {
-        return [NSColor whiteColor];
+        // Drawn on top of the selection fill
+        return [NSColor alternateSelectedControlTextColor];
     }
     else
     {
-        return [NSColor blackColor];
+        return [NSColor controlTextColor];
     }
 }
 
