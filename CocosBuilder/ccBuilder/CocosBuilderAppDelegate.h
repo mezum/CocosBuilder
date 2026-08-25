@@ -279,6 +279,9 @@ enum {
 // Transparent window
 - (void) resizeGUIWindow:(NSSize)size;
 
+- (void) setLeftPanelWidth:(CGFloat)width;
+- (void) setRightPanelWidth:(CGFloat)width;
+
 // PlugIns and properties
 @property (nonatomic,readonly) PlugInManager* plugInManager;
 - (void) refreshProperty:(NSString*) name;

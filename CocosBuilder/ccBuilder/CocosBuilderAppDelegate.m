@@ -99,6 +99,53 @@
 #import <ExceptionHandling/NSExceptionHandler.h>
 
 
+#pragma mark Panel resize handles
+
+#define kCCBPanelResizeHandleWidth 6
+#define kCCBMinPanelWidth 150
+#define kCCBMinCanvasWidth 240
+
+// A thin grab area along a side panel's inner edge. Dragging it hands the new
+// width to the app delegate, which lays the three columns out again.
+@interface CCBPanelResizeHandle : NSView
+{
+    BOOL resizesLeftPanel;
+}
+@property (nonatomic, assign) BOOL resizesLeftPanel;
+@end
+
+@implementation CCBPanelResizeHandle
+
+@synthesize resizesLeftPanel;
+
+- (void) resetCursorRects
+{
+    [self addCursorRect:[self bounds] cursor:[NSCursor resizeLeftRightCursor]];
+}
+
+- (void) mouseDown:(NSEvent*)event
+{
+    // Swallow the click so it does not fall through to the panel's contents.
+}
+
+- (void) mouseDragged:(NSEvent*)event
+{
+    CocosBuilderAppDelegate* appDelegate = [CocosBuilderAppDelegate appDelegate];
+    NSView* container = [[appDelegate window] contentView];
+    CGFloat x = [container convertPoint:[event locationInWindow] fromView:NULL].x;
+    
+    if (resizesLeftPanel)
+    {
+        [appDelegate setLeftPanelWidth:x];
+    }
+    else
+    {
+        [appDelegate setRightPanelWidth:[container bounds].size.width - x];
+    }
+}
+
+@end
+
 @implementation CocosBuilderAppDelegate
 
 @synthesize window;
@@ -332,6 +379,88 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self clearOpaqueBackgroundsIn:rightPanel];
 }
 
+- (void) setupPanelResizing
+{
+    CCBPanelResizeHandle* leftHandle = [[[CCBPanelResizeHandle alloc] initWithFrame:
+                                         NSMakeRect([leftPanel bounds].size.width - kCCBPanelResizeHandleWidth / 2,
+                                                    0,
+                                                    kCCBPanelResizeHandleWidth,
+                                                    [leftPanel bounds].size.height)] autorelease];
+    [leftHandle setResizesLeftPanel:YES];
+    [leftHandle setAutoresizingMask:NSViewMinXMargin | NSViewHeightSizable];
+    [leftPanel addSubview:leftHandle];
+    
+    CCBPanelResizeHandle* rightHandle = [[[CCBPanelResizeHandle alloc] initWithFrame:
+                                          NSMakeRect(-kCCBPanelResizeHandleWidth / 2,
+                                                     0,
+                                                     kCCBPanelResizeHandleWidth,
+                                                     [rightPanel bounds].size.height)] autorelease];
+    [rightHandle setResizesLeftPanel:NO];
+    [rightHandle setAutoresizingMask:NSViewMaxXMargin | NSViewHeightSizable];
+    [rightPanel addSubview:rightHandle];
+}
+
+// The three columns are laid out by hand (the panels are plain views, not split
+// view panes), so resizing one means moving the divider and the centre column
+// with it.
+- (CGFloat) canvasLeftEdge
+{
+    return [leftPanel isHidden] ? 0 : leftPanel.frame.size.width;
+}
+
+- (CGFloat) canvasRightEdge
+{
+    return [rightPanel isHidden] ? [mainView bounds].size.width : rightPanel.frame.origin.x;
+}
+
+- (void) setLeftPanelWidth:(CGFloat)width
+{
+    if ([leftPanel isHidden]) return;
+    
+    CGFloat rightEdge = [self canvasRightEdge];
+    width = roundf(width);
+    if (width < kCCBMinPanelWidth) width = kCCBMinPanelWidth;
+    if (width > rightEdge - kCCBMinCanvasWidth) width = rightEdge - kCCBMinCanvasWidth;
+    if (width == leftPanel.frame.size.width) return;
+    
+    NSRect panelFrame = leftPanel.frame;
+    panelFrame.size.width = width;
+    [leftPanel setFrame:panelFrame];
+    
+    NSRect canvasFrame = splitHorizontalView.frame;
+    canvasFrame.origin.x = width;
+    canvasFrame.size.width = rightEdge - width;
+    [splitHorizontalView setFrame:canvasFrame];
+    
+    [leftPanel setNeedsDisplay:YES];
+    [splitHorizontalView setNeedsDisplay:YES];
+}
+
+- (void) setRightPanelWidth:(CGFloat)width
+{
+    if ([rightPanel isHidden]) return;
+    
+    CGFloat totalWidth = [mainView bounds].size.width;
+    CGFloat leftEdge = [self canvasLeftEdge];
+    width = roundf(width);
+    if (width < kCCBMinPanelWidth) width = kCCBMinPanelWidth;
+    if (width > totalWidth - leftEdge - kCCBMinCanvasWidth) width = totalWidth - leftEdge - kCCBMinCanvasWidth;
+    if (width == rightPanel.frame.size.width) return;
+    
+    NSRect panelFrame = rightPanel.frame;
+    panelFrame.origin.x = totalWidth - width;
+    panelFrame.size.width = width;
+    [rightPanel setFrame:panelFrame];
+    
+    NSRect canvasFrame = splitHorizontalView.frame;
+    canvasFrame.origin.x = leftEdge;
+    canvasFrame.size.width = panelFrame.origin.x - leftEdge;
+    [splitHorizontalView setFrame:canvasFrame];
+    
+    [rightPanel setNeedsDisplay:YES];
+    [splitHorizontalView setNeedsDisplay:YES];
+}
+
 - (void) setupAutoCompleteHandler
 {
     JavaScriptAutoCompleteHandler* handler = [JavaScriptAutoCompleteHandler sharedAutoCompleteHandler];
@@ -396,6 +525,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
     [self setupResourceManager];
     [self setupGlassAppearance];
+    [self setupPanelResizing];
     [self setupGUIWindow];
     
     [self setupPlayerConnection];
