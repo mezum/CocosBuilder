@@ -1671,6 +1671,7 @@ CA
                 <outlet property="splitHorizontalView" destination="1530" id="1793"/>
                 <outlet property="tabBar" destination="1233" id="1234"/>
                 <outlet property="timeDisplay" destination="1557" id="1563"/>
+                <outlet property="timelineView" destination="1554" id="2100"/>
                 <outlet property="timeScaleSlider" destination="1564" id="1568"/>
                 <outlet property="timelineScroller" destination="1543" id="1569"/>
                 <outlet property="toolbar" destination="1224" id="1755"/>
