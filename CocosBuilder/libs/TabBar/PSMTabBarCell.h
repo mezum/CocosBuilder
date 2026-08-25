@@ -20,8 +20,8 @@
 
 	// state
 	NSInteger								_tabState;
-	NSTrackingRectTag						_closeButtonTrackingTag;				// left side tracking, if dragging
-	NSTrackingRectTag						_cellTrackingTag;							// right side tracking, if dragging
+	NSTrackingRectTag						_closeButtonTrackingTag;			// left side tracking, if dragging
+	NSTrackingRectTag						_cellTrackingTag;					// right side tracking, if dragging
 	BOOL									_closeButtonOver;
 	BOOL									_closeButtonPressed;
 	PSMProgressIndicator					*_indicator;
@@ -31,8 +31,10 @@
 	BOOL									_hasIcon;
 	BOOL									_hasLargeImage;
 	NSInteger								_count;
-	NSColor								*_countColor;
+	NSColor								    *_countColor;
 	BOOL									_isEdited;
+    
+    PSMTabBarControl                        *_controlView;
 }
 
 // creation/destruction

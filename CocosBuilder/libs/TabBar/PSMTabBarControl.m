@@ -1090,27 +1090,28 @@
 }
 
 - (void)_setupTrackingRectsForCell:(PSMTabBarCell *)cell {
-	NSInteger tag, index = [_cells indexOfObject:cell];
+    NSInteger index = [_cells indexOfObject:cell];
 	NSRect cellTrackingRect = [_controller cellTrackingRectAtIndex:index];
 	NSPoint mousePoint = [self convertPoint:[[self window] mouseLocationOutsideOfEventStream] fromView:nil];
 	BOOL mouseInCell = NSMouseInRect(mousePoint, cellTrackingRect, [self isFlipped]);
 
 	//set the cell tracking rect
-	[self removeTrackingRect:[cell cellTrackingTag]];
-	tag = [self addTrackingRect:cellTrackingRect owner:cell userData:nil assumeInside:mouseInCell];
-	[cell setCellTrackingTag:tag];
-	[cell setHighlighted:mouseInCell];
+    if (cell.cellTrackingTag) {
+        [self removeTrackingRect:cell.cellTrackingTag];
+    }
+	cell.cellTrackingTag = [self addTrackingRect:cellTrackingRect owner:cell userData:nil assumeInside:mouseInCell];
+	cell.highlighted = mouseInCell;
 
-	if([cell hasCloseButton] && ![cell isCloseButtonSuppressed]) {
+	if(cell.hasCloseButton && !cell.isCloseButtonSuppressed) {
 		NSRect closeRect = [_controller closeButtonTrackingRectAtIndex:index];
 		BOOL mouseInCloseRect = NSMouseInRect(mousePoint, closeRect, [self isFlipped]);
 
 		//set the close button tracking rect
-		[self removeTrackingRect:[cell closeButtonTrackingTag]];
-		tag = [self addTrackingRect:closeRect owner:cell userData:nil assumeInside:mouseInCloseRect];
-		[cell setCloseButtonTrackingTag:tag];
-
-		[cell setCloseButtonOver:mouseInCloseRect];
+        if (cell.closeButtonTrackingTag) {
+            [self removeTrackingRect:cell.closeButtonTrackingTag];
+        }
+        cell.closeButtonTrackingTag = [self addTrackingRect:closeRect owner:cell userData:nil assumeInside:mouseInCloseRect];
+		cell.closeButtonOver = mouseInCloseRect;
 	}
 
 	//set the tooltip tracking rect

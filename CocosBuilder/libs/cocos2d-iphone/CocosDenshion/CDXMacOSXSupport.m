@@ -29,7 +29,7 @@
 #import "CDXMacOSXSupport.h"
 #import "SimpleAudioEngine.h"
 
-NSString * const AVAudioSessionCategoryAmbient = @"AVAudioSessionCategoryAmbient";
+NSString *const AVAudioSessionCategoryAmbient = @"AVAudioSessionCategoryAmbient";
 NSString *const AVAudioSessionCategorySoloAmbient = @"AVAudioSessionCategorySoloAmbient";
 NSString *const AVAudioSessionCategoryPlayback = @"AVAudioSessionCategoryPlayback";
 NSString *const AVAudioSessionCategoryRecord = @"AVAudioSessionCategoryRecord";

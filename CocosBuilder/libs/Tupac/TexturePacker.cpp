@@ -1,5 +1,6 @@
 #include "TexturePacker.h"
 #include <assert.h>
+#include <cstddef>
 
 namespace TEXTURE_PACKER
 {

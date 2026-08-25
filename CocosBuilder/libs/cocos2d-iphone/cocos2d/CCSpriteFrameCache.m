@@ -269,8 +269,11 @@ static CCSpriteFrameCache *_sharedSpriteFrameCache=nil;
 	NSAssert(plist, @"plist filename should not be nil");
 	
 	if( ! [_loadedFilenames member:plist] ) {
-
-		NSString *path = [[CCFileUtils sharedFileUtils] fullPathForFilename:plist];
+        NSString *path = plist;
+        if (!path.isAbsolutePath) {
+            path = [[CCFileUtils sharedFileUtils] fullPathForFilename:path];
+        }
+        
 		NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:path];
 
 		NSString *texturePath = nil;

@@ -40,18 +40,24 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/NSSound.h>
 
+/*
 enum AudioSessionProperties {
 	kAudioSessionProperty_OtherAudioIsPlaying,
 	kAudioSessionProperty_AudioRoute	
 };
+*/
 
-extern OSStatus AudioSessionGetProperty(UInt32 inID, UInt32 *ioDataSize, void *outData);    
+#define AudioSessionGetProperty AudioSessionGetPropertySim
+
+extern OSStatus AudioSessionGetProperty(UInt32 inID, UInt32 *ioDataSize, void *outData);
 
 /**
  Based on AVAudioPlayer.h header in AVFoundation headers
  */
 @class NSData, NSURL, NSError, NSDictionary;
 @protocol AVAudioPlayerDelegate;
+
+#define AVAudioPlayer AVAudioPlayerSim
 
 /* This class is available with iPhone 2.2 or later */
 @interface AVAudioPlayer : NSObject <NSSoundDelegate> {
@@ -130,6 +136,8 @@ extern OSStatus AudioSessionGetProperty(UInt32 inID, UInt32 *ioDataSize, void *o
 
 @end
 
+#define AVAudioPlayerDelegate AVAudioPlayerDelegateSim
+
 /* A protocol for delegates of AVAudioPlayer */
 @protocol AVAudioPlayerDelegate <NSObject>
 @optional 
@@ -150,6 +158,7 @@ extern OSStatus AudioSessionGetProperty(UInt32 inID, UInt32 *ioDataSize, void *o
 - (void)audioPlayerEndInterruption:(AVAudioPlayer *)player;
 @end
 
+#define AVAudioSessionDelegate AVAudioSessionDelegateSim
 
 /**
  Taken from AVAudioSession.h header in AVFoundation headers
@@ -174,6 +183,8 @@ enum {
 enum {	
 	AVAudioSessionSetActiveFlags_NotifyOthersOnDeactivation = 1
 };
+
+#define AVAudioSession AVAudioSessionSim
 
 @interface AVAudioSession : NSObject {
 	
@@ -215,6 +226,7 @@ enum {
 
 @end
 
+#define AVAudioSessionDelegate AVAudioSessionDelegateSim
 
 /* A protocol for delegates of AVAudioSession */
 @protocol AVAudioSessionDelegate <NSObject>
