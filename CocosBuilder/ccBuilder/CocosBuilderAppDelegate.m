@@ -265,6 +265,34 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [window addChildWindow:guiWindow ordered:NSWindowAbove];
 }
 
+- (void) setupGlassAppearance
+{
+    // macOS 26 renders the window chrome on Liquid Glass. Put the editor's own
+    // panels on glass as well so the window reads as one surface, and let the
+    // system palette pick the light or dark variant.
+    NSGlassEffectView* windowGlass = [[[NSGlassEffectView alloc] initWithFrame:mainView.bounds] autorelease];
+    [windowGlass setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [windowGlass setStyle:NSGlassEffectViewStyleRegular];
+    // Covers the whole content view, so the window itself supplies the rounding.
+    [windowGlass setCornerRadius:0];
+    [mainView addSubview:windowGlass positioned:NSWindowBelow relativeTo:NULL];
+    
+    // The inspector gets its own pane of glass. Its scroll view has to stop
+    // painting an opaque background, or it would cover the effect.
+    [inspectorScroll setDrawsBackground:NO];
+    [[inspectorScroll contentView] setDrawsBackground:NO];
+    
+    NSGlassEffectView* inspectorGlass = [[[NSGlassEffectView alloc] initWithFrame:rightPanel.bounds] autorelease];
+    [inspectorGlass setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [inspectorGlass setStyle:NSGlassEffectViewStyleRegular];
+    [rightPanel addSubview:inspectorGlass];
+    
+    // Setting the content view moves the scroll view inside the glass.
+    [inspectorGlass setContentView:inspectorScroll];
+    [inspectorScroll setFrame:[inspectorGlass bounds]];
+    [inspectorScroll setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+}
+
 - (void) setupAutoCompleteHandler
 {
     JavaScriptAutoCompleteHandler* handler = [JavaScriptAutoCompleteHandler sharedAutoCompleteHandler];
@@ -308,6 +336,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     [self setupTabBar];
     [self setupInspectorPane];
+    [self setupGlassAppearance];
     [self setupCocos2d];
     [self setupSequenceHandler];
     [self updateInspectorFromSelection];
