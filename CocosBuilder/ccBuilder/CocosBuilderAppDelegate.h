@@ -144,6 +144,7 @@ enum {
     IBOutlet NSBox* dopeSheetDivider;
     IBOutlet NSBox* hierarchyDivider;
     NSView* hierarchyResizeHandle;
+    BOOL suspendLayoutSaving;
     IBOutlet NSTextField* timeDisplay;
     IBOutlet NSSlider* timeScaleSlider;
     IBOutlet NSScroller* timelineScroller;
@@ -285,6 +286,9 @@ enum {
 - (void) setLeftPanelWidth:(CGFloat)width;
 - (void) setRightPanelWidth:(CGFloat)width;
 - (void) setDopeSheetEdge:(CGFloat)x;
+- (void) saveLayoutState;
+- (void) restoreLayoutState;
+- (IBAction) menuResetPanelLayout:(id)sender;
 - (void) positionHierarchyResizeHandleAt:(CGFloat)x;
 
 // PlugIns and properties

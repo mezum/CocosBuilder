@@ -772,6 +772,12 @@ CA
                                     <action selector="menuResetView:" target="494" id="1298"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Reset Panel Layout" id="2111">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="menuResetPanelLayout:" target="494" id="2112"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="1269"/>
                             <menuItem title="Resolution" id="1263">
                                 <modifierMask key="keyEquivalentModifierMask"/>
