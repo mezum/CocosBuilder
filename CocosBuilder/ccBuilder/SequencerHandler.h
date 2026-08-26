@@ -46,6 +46,8 @@
     //NSMutableArray* sequences;
     SequencerScrubberSelectionView* scrubberSelectionView;
     SequencerTimelineView* timelineView;
+    NSBox* dopeSheetDivider;
+    NSBox* hierarchyDivider;
     NSTextField* timeDisplay;
     NSSlider* timeScaleSlider;
     NSScroller* scroller;
@@ -63,6 +65,8 @@
 @property (nonatomic,retain) NSSlider* timeScaleSlider;
 @property (nonatomic,retain) NSScroller* scroller;
 @property (nonatomic,retain) NSScrollView* scrollView;
+@property (nonatomic,retain) NSBox* dopeSheetDivider;
+@property (nonatomic,retain) NSBox* hierarchyDivider;
 //@property (nonatomic,retain) NSMutableArray* sequences;
 
 @property (nonatomic,readonly) NSOutlineView* outlineHierarchy;
@@ -80,6 +84,8 @@
 
 - (void) redrawTimeline:(BOOL) reload;
 - (void) redrawTimeline;
+- (void) updateTimelineLayout;
+- (void) setDopeSheetEdge:(CGFloat)x;
 - (void) updateScroller;
 - (void) updateScrollerToShowCurrentTime;
 

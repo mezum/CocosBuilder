@@ -141,6 +141,9 @@ enum {
     IBOutlet NSOutlineView* outlineHierarchy;
     IBOutlet SequencerScrubberSelectionView* scrubberSelectionView;
     IBOutlet SequencerTimelineView* timelineView;
+    IBOutlet NSBox* dopeSheetDivider;
+    IBOutlet NSBox* hierarchyDivider;
+    NSView* hierarchyResizeHandle;
     IBOutlet NSTextField* timeDisplay;
     IBOutlet NSSlider* timeScaleSlider;
     IBOutlet NSScroller* timelineScroller;
@@ -281,6 +284,8 @@ enum {
 
 - (void) setLeftPanelWidth:(CGFloat)width;
 - (void) setRightPanelWidth:(CGFloat)width;
+- (void) setDopeSheetEdge:(CGFloat)x;
+- (void) positionHierarchyResizeHandleAt:(CGFloat)x;
 
 // PlugIns and properties
 @property (nonatomic,readonly) PlugInManager* plugInManager;

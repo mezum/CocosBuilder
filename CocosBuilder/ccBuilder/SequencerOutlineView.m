@@ -83,14 +83,19 @@
     
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     float xPos = [seq timeToPosition:seq.timelineLength];
+    
+    // Where the dope sheet column actually starts; the hierarchy column can be
+    // resized, so this is not a fixed offset.
+    NSInteger dopeColumn = [self columnWithIdentifier:@"sequencer"];
+    CGFloat dopeEdge = (dopeColumn < 0) ? 0 : [self rectOfColumn:dopeColumn].origin.x;
     if (!imgEndmarker) imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
     if (!imgStartmarker) imgStartmarker = [[NSImage imageNamed:@"seq-startmarker.png"] retain];
-    [imgEndmarker drawInRect:NSMakeRect(xPos+250, 0, 32, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    [imgEndmarker drawInRect:NSMakeRect(xPos+dopeEdge, 0, 32, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     
     float xStartPos = [seq timeToPosition:0] -TIMELINE_PAD_PIXELS;
     [[NSGraphicsContext currentContext] saveGraphicsState];
-    NSRectClip(NSMakeRect(250, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height));
-    [imgStartmarker drawInRect:NSMakeRect(250+xStartPos, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    NSRectClip(NSMakeRect(dopeEdge, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height));
+    [imgStartmarker drawInRect:NSMakeRect(dopeEdge+xStartPos, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     [[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
