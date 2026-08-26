@@ -1100,7 +1100,7 @@ CA
                         <subviews>
                             <splitView fixedFrame="YES" dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="1996">
                                 <rect key="frame" x="0.0" y="0.0" width="250" height="678"/>
-                                <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
                                     <customView fixedFrame="YES" id="1998">
                                         <rect key="frame" x="0.0" y="0.0" width="250" height="240"/>
