@@ -46,24 +46,39 @@
     return self;
 }
 
+- (void) drawRowBackgroundInRect:(NSRect)rowRect row:(int)row isChannel:(BOOL)isChannel
+{
+    // The rows used to be three baked bitmaps; use the system palette so the
+    // timeline follows the appearance and dims in dark mode.
+    NSColor* background;
+    if (isChannel)
+    {
+        background = [NSColor windowBackgroundColor];
+    }
+    else
+    {
+        NSArray* alternating = [NSColor alternatingContentBackgroundColors];
+        background = [alternating objectAtIndex:row % [alternating count]];
+    }
+    
+    [background setFill];
+    NSRectFill(rowRect);
+    
+    // Hairline along the bottom edge so the lanes stay readable. separatorColor
+    // is translucent, so it has to be composited rather than copied - NSRectFill
+    // would write its alpha straight into the buffer and come out solid white.
+    [[NSColor separatorColor] setFill];
+    NSRectFillUsingOperation(NSMakeRect(rowRect.origin.x, NSMaxY(rowRect) - 1, rowRect.size.width, 1),
+                             NSCompositeSourceOver);
+}
+
 - (void) drawPropertyRowToggle:(int) row property:(NSString*)propName withFrame:(NSRect)cellFrame inView:(NSView*)controlView
 {
     SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
     
     // Draw background
     NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y-1+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight+1);
-    if (row == 0)
-    {
-        [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-    else if (row == 1)
-    {
-        [imgRowBg1 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-    else
-    {
-        [imgRowBgN drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
+    [self drawRowBackgroundInRect:rowRect row:row isChannel:NO];
 
     
     SequencerNodeProperty* nodeProp = [node sequenceNodeProperty:propName sequenceId:seq.sequenceId];
@@ -173,22 +188,7 @@
 {
     // Draw background
     NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y+row*kCCBSeqDefaultRowHeight, cellFrame.size.width, kCCBSeqDefaultRowHeight);
-    if (isChannel)
-    {
-        [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    } 
-    else if (row == 0)
-    {
-        [imgRowBg0 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-    else if (row == 1)
-    {
-        [imgRowBg1 drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
-    else
-    {
-        [imgRowBgN drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-    }
+    [self drawRowBackgroundInRect:rowRect row:row isChannel:isChannel];
     
     if (nodeProp)
     {
@@ -336,17 +336,6 @@
         imgKeyframeSel = [[NSImage imageNamed:@"seq-keyframe-sel.png"] retain];
         [imgKeyframeSel setFlipped:YES];
         
-        imgRowBg0 = [[NSImage imageNamed:@"seq-row-0-bg.png"] retain];
-        [imgRowBg0 setFlipped:YES];
-        
-        imgRowBg1 = [[NSImage imageNamed:@"seq-row-1-bg.png"] retain];
-        [imgRowBg1 setFlipped:YES];
-        
-        imgRowBgN = [[NSImage imageNamed:@"seq-row-n-bg.png"] retain];
-        [imgRowBgN setFlipped:YES];
-        
-        imgRowBgChannel = [[NSImage imageNamed:@"seq-row-channel-bg.png"] retain];
-        [imgRowBgN setFlipped:YES];
         
         imgInterpol = [[NSImage imageNamed:@"seq-keyframe-interpol.png"] retain];
         [imgInterpol setFlipped:YES];
@@ -411,9 +400,6 @@
 {
     [imgKeyframe release];
     [imgKeyframeSel release];
-    [imgRowBg0 release];
-    [imgRowBg1 release];
-    [imgRowBgN release];
     [imgInterpol release];
     [imgEaseIn release];
     [imgEaseOut release];

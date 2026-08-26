@@ -37,10 +37,6 @@
     NSImage* imgKeyframe;
     NSImage* imgKeyframeSel;
     
-    NSImage* imgRowBg0;
-    NSImage* imgRowBg1;
-    NSImage* imgRowBgN;
-    NSImage* imgRowBgChannel;
     
     NSImage* imgInterpol;
     NSImage* imgEaseIn;
