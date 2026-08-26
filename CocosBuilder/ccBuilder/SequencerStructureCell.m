@@ -43,8 +43,8 @@
     
     if (!node)
     {
-        NSRect rowRect = NSMakeRect(0, /*cellFrame.origin.x,*/ cellFrame.origin.y, cellFrame.size.width+16, kCCBSeqDefaultRowHeight);
-        [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+        // NSRect rowRect = NSMakeRect(0, /*cellFrame.origin.x,*/ cellFrame.origin.y, cellFrame.size.width+16, kCCBSeqDefaultRowHeight);
+        // [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
         [super drawWithFrame:cellFrame inView:controlView];
         return;
     }
