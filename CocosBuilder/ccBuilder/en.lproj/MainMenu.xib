@@ -1253,7 +1253,7 @@ CA
                                     <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="566" userLabel="Scroll View - Outline View">
                                         <rect key="frame" x="0.0" y="16" width="600" height="66"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        <clipView key="contentView" copiesOnScroll="NO" id="JL4-0o-MHU">
+                                        <clipView key="contentView" copiesOnScroll="NO" id="JL4-0o-MHU" customClass="SequencerClipView">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>

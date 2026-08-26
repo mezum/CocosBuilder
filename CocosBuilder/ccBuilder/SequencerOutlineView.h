@@ -30,3 +30,12 @@
     NSImage* imgStartmarker;
 }
 @end
+
+// The dope sheet column is stretched to the right hand edge of the view, which
+// leaves the table a little wider than its clip view - NSOutlineView pads the
+// outline column and adds that padding to its own width as well. A sideways
+// swipe over the timeline then drags the node names out from under it. Nothing
+// in the sequencer is meant to scroll horizontally, so the clip view of the
+// scroll view around it is pinned to its left edge in the nib.
+@interface SequencerClipView : NSClipView
+@end

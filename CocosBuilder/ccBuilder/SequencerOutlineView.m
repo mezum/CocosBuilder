@@ -26,6 +26,17 @@
 #import "SequencerHandler.h"
 #import "SequencerSequence.h"
 
+@implementation SequencerClipView
+
+- (NSRect) constrainBoundsRect:(NSRect)proposedBounds
+{
+    NSRect bounds = [super constrainBoundsRect:proposedBounds];
+    bounds.origin.x = 0;
+    return bounds;
+}
+
+@end
+
 @implementation SequencerOutlineView
 
 - (void) awakeFromNib
