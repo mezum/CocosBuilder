@@ -669,8 +669,25 @@ static SequencerHandler* sharedSequencerHandler;
     NSInteger expanderColumn = [outlineHierarchy columnWithIdentifier:@"expander"];
     if (dopeColumn < 0 || expanderColumn < 0) return;
     
+    // Resizing a column posts the notification this method is called from.
+    if (updatingTimelineLayout) return;
+    updatingTimelineLayout = YES;
+    
     CGFloat dopeEdge = [outlineHierarchy rectOfColumn:dopeColumn].origin.x;
     CGFloat hierarchyEdge = [outlineHierarchy rectOfColumn:expanderColumn].origin.x;
+    
+    // The outline view pads its outline column, so the columns do not add up to
+    // the table's width and -sizeLastColumnToFit leaves a gap at the right hand
+    // edge. Stretch the dope sheet column to the edge explicitly.
+    NSTableColumn* dopeSheetColumn = [[outlineHierarchy tableColumns] objectAtIndex:dopeColumn];
+    // Measured against what is actually visible: the outline view itself can be
+    // wider than its clip view, which would just push the extra off screen.
+    CGFloat visibleWidth = [[[outlineHierarchy enclosingScrollView] contentView] bounds].size.width;
+    CGFloat available = visibleWidth - dopeEdge;
+    if (available > 0 && fabs([dopeSheetColumn width] - available) > 0.5)
+    {
+        [dopeSheetColumn setWidth:available];
+    }
     
     // These all run from the divider to the right hand end of the timeline.
     NSArray* stretched = [NSArray arrayWithObjects:scrubberSelectionView, timelineView, scroller, nil];
@@ -697,6 +714,8 @@ static SequencerHandler* sharedSequencerHandler;
     
     [[CocosBuilderAppDelegate appDelegate] positionHierarchyResizeHandleAt:dopeEdge];
     [[dopeSheetDivider superview] setNeedsDisplay:YES];
+    
+    updatingTimelineLayout = NO;
 }
 
 - (void) redrawTimeline:(BOOL) reload
@@ -711,6 +730,9 @@ static SequencerHandler* sharedSequencerHandler;
     [self updateScroller];
     if (reload) {
         [outlineHierarchy reloadData];
+        // The table may have been laid out since the last pass (a document was
+        // opened, the window was resized); keep the overlays on the columns.
+        [self updateTimelineLayout];
     }
     else {
         // The keyframes and easing bars are drawn by SequencerCell inside the

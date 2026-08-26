@@ -48,6 +48,7 @@
     SequencerTimelineView* timelineView;
     NSBox* dopeSheetDivider;
     NSBox* hierarchyDivider;
+    BOOL updatingTimelineLayout;
     NSTextField* timeDisplay;
     NSSlider* timeScaleSlider;
     NSScroller* scroller;

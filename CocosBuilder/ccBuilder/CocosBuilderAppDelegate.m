@@ -889,6 +889,9 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) windowDidResize:(NSNotification *)notification
 {
     [sequenceHandler updateScroller];
+    // The dope sheet column stretches with the window, so the overlays laid out
+    // over it have to follow.
+    [sequenceHandler updateTimelineLayout];
 }
 
 
