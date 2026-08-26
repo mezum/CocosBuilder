@@ -106,6 +106,10 @@
 #define kCCBMinPanelWidth 150
 #define kCCBMinCanvasWidth 240
 #define kCCBPanelAnimationDuration 0.22
+#define kCCBDefaultLeftPanelWidth 250
+#define kCCBDefaultRightPanelWidth 301
+#define kCCBDefaultHierarchyWidth 234
+#define kCCBPanelLayoutKey @"panelLayout"
 
 // A thin grab area along a side panel's inner edge. Dragging it hands the new
 // width to the app delegate, which lays the three columns out again.
@@ -441,6 +445,83 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 - (void) setDopeSheetEdge:(CGFloat)x
 {
     [sequenceHandler setDopeSheetEdge:x];
+    [self saveLayoutState];
+}
+
+#pragma mark Panel layout state
+
+- (NSDictionary*) defaultLayoutState
+{
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithDouble:kCCBDefaultLeftPanelWidth], @"leftWidth",
+            [NSNumber numberWithDouble:kCCBDefaultRightPanelWidth], @"rightWidth",
+            [NSNumber numberWithDouble:kCCBDefaultHierarchyWidth], @"hierarchyWidth",
+            [NSNumber numberWithBool:YES], @"leftVisible",
+            [NSNumber numberWithBool:YES], @"rightVisible",
+            [NSNumber numberWithBool:YES], @"timelineVisible",
+            nil];
+}
+
+- (NSDictionary*) currentLayoutState
+{
+    NSTableColumn* hierarchy = [[sequenceHandler outlineHierarchy] tableColumnWithIdentifier:@"structure"];
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            [NSNumber numberWithDouble:leftPanel.frame.size.width], @"leftWidth",
+            [NSNumber numberWithDouble:rightPanel.frame.size.width], @"rightWidth",
+            [NSNumber numberWithDouble:hierarchy ? [hierarchy width] : kCCBDefaultHierarchyWidth], @"hierarchyWidth",
+            [NSNumber numberWithBool:![leftPanel isHidden]], @"leftVisible",
+            [NSNumber numberWithBool:![rightPanel isHidden]], @"rightVisible",
+            [NSNumber numberWithBool:[panelVisibilityControl isSelectedForSegment:1]], @"timelineVisible",
+            nil];
+}
+
+- (void) saveLayoutState
+{
+    if (!suspendLayoutSaving)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:[self currentLayoutState] forKey:kCCBPanelLayoutKey];
+    }
+}
+
+- (void) applyLayoutState:(NSDictionary*)layout animated:(BOOL)animated
+{
+    // Restoring is a batch of changes; store the result once at the end rather
+    // than after every step.
+    suspendLayoutSaving = YES;
+    
+    NSNumber* value = [layout objectForKey:@"hierarchyWidth"];
+    NSTableColumn* hierarchy = [[sequenceHandler outlineHierarchy] tableColumnWithIdentifier:@"structure"];
+    if (value && hierarchy)
+    {
+        [hierarchy setWidth:[value doubleValue]];
+        [sequenceHandler updateTimelineLayout];
+    }
+    
+    // Visibility first: the widths below place the panels relative to it.
+    [panelVisibilityControl setSelected:[[layout objectForKey:@"leftVisible"] boolValue] forSegment:0];
+    [panelVisibilityControl setSelected:[[layout objectForKey:@"timelineVisible"] boolValue] forSegment:1];
+    [panelVisibilityControl setSelected:[[layout objectForKey:@"rightVisible"] boolValue] forSegment:2];
+    [self updatePanelVisibilityAnimated:animated];
+    
+    if ((value = [layout objectForKey:@"leftWidth"])) [self setLeftPanelWidth:[value doubleValue]];
+    if ((value = [layout objectForKey:@"rightWidth"])) [self setRightPanelWidth:[value doubleValue]];
+    
+    suspendLayoutSaving = NO;
+    [self saveLayoutState];
+}
+
+- (void) restoreLayoutState
+{
+    NSDictionary* layout = [[NSUserDefaults standardUserDefaults] objectForKey:kCCBPanelLayoutKey];
+    if (!layout) return;
+    
+    [self applyLayoutState:layout animated:NO];
+}
+
+- (IBAction) menuResetPanelLayout:(id)sender
+{
+    [self applyLayoutState:[self defaultLayoutState] animated:YES];
 }
 
 // The three columns are laid out by hand (the panels are plain views, not split
@@ -458,8 +539,6 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
 
 - (void) setLeftPanelWidth:(CGFloat)width
 {
-    if ([leftPanel isHidden]) return;
-    
     CGFloat rightEdge = [self canvasRightEdge];
     width = roundf(width);
     if (width < kCCBMinPanelWidth) width = kCCBMinPanelWidth;
@@ -468,21 +547,25 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     
     NSRect panelFrame = leftPanel.frame;
     panelFrame.size.width = width;
+    // Keep a hidden panel parked just off the left edge.
+    if ([leftPanel isHidden]) panelFrame.origin.x = -width;
     [leftPanel setFrame:panelFrame];
     
-    NSRect canvasFrame = splitHorizontalView.frame;
-    canvasFrame.origin.x = width;
-    canvasFrame.size.width = rightEdge - width;
-    [splitHorizontalView setFrame:canvasFrame];
+    if (![leftPanel isHidden])
+    {
+        NSRect canvasFrame = splitHorizontalView.frame;
+        canvasFrame.origin.x = width;
+        canvasFrame.size.width = rightEdge - width;
+        [splitHorizontalView setFrame:canvasFrame];
+        [splitHorizontalView setNeedsDisplay:YES];
+    }
     
     [leftPanel setNeedsDisplay:YES];
-    [splitHorizontalView setNeedsDisplay:YES];
+    [self saveLayoutState];
 }
 
 - (void) setRightPanelWidth:(CGFloat)width
 {
-    if ([rightPanel isHidden]) return;
-    
     CGFloat totalWidth = [mainView bounds].size.width;
     CGFloat leftEdge = [self canvasLeftEdge];
     width = roundf(width);
@@ -491,17 +574,21 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     if (width == rightPanel.frame.size.width) return;
     
     NSRect panelFrame = rightPanel.frame;
-    panelFrame.origin.x = totalWidth - width;
+    panelFrame.origin.x = [rightPanel isHidden] ? totalWidth : totalWidth - width;
     panelFrame.size.width = width;
     [rightPanel setFrame:panelFrame];
     
-    NSRect canvasFrame = splitHorizontalView.frame;
-    canvasFrame.origin.x = leftEdge;
-    canvasFrame.size.width = panelFrame.origin.x - leftEdge;
-    [splitHorizontalView setFrame:canvasFrame];
+    if (![rightPanel isHidden])
+    {
+        NSRect canvasFrame = splitHorizontalView.frame;
+        canvasFrame.origin.x = leftEdge;
+        canvasFrame.size.width = panelFrame.origin.x - leftEdge;
+        [splitHorizontalView setFrame:canvasFrame];
+        [splitHorizontalView setNeedsDisplay:YES];
+    }
     
     [rightPanel setNeedsDisplay:YES];
-    [splitHorizontalView setNeedsDisplay:YES];
+    [self saveLayoutState];
 }
 
 - (void) setupAutoCompleteHandler
@@ -569,6 +656,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     [self setupResourceManager];
     [self setupGlassAppearance];
     [self setupPanelResizing];
+    [self restoreLayoutState];
     [self setupGUIWindow];
     
     [self setupPlayerConnection];
@@ -2949,9 +3037,9 @@ static BOOL hideAllToNextSeparator;
     cs.currentTool = [sc selectedSegment];
 }
 
-- (IBAction) pressedPanelVisibility:(id)sender
+- (void) updatePanelVisibilityAnimated:(BOOL)animated
 {
-    NSSegmentedControl* sc = sender;
+    NSSegmentedControl* sc = panelVisibilityControl;
     
     BOOL showLeft = [sc isSelectedForSegment:0];
     BOOL showRight = [sc isSelectedForSegment:2];
@@ -2981,23 +3069,37 @@ static BOOL hideAllToNextSeparator;
         if (showLeft) [leftPanel setHidden:NO];
         if (showRight) [rightPanel setHidden:NO];
         
-        [NSAnimationContext runAnimationGroup:^(NSAnimationContext* context) {
-            [context setDuration:kCCBPanelAnimationDuration];
-            [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-            
-            if (leftChanged) [[leftPanel animator] setFrame:leftFrame];
-            if (rightChanged) [[rightPanel animator] setFrame:rightFrame];
-            [[splitHorizontalView animator] setFrame:canvasFrame];
-        } completionHandler:^{
+        if (animated)
+        {
+            [NSAnimationContext runAnimationGroup:^(NSAnimationContext* context) {
+                [context setDuration:kCCBPanelAnimationDuration];
+                [context setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+                
+                if (leftChanged) [[leftPanel animator] setFrame:leftFrame];
+                if (rightChanged) [[rightPanel animator] setFrame:rightFrame];
+                [[splitHorizontalView animator] setFrame:canvasFrame];
+            } completionHandler:^{
+                if (!showLeft) [leftPanel setHidden:YES];
+                if (!showRight) [rightPanel setHidden:YES];
+            }];
+        }
+        else
+        {
+            if (leftChanged) [leftPanel setFrame:leftFrame];
+            if (rightChanged) [rightPanel setFrame:rightFrame];
+            [splitHorizontalView setFrame:canvasFrame];
             if (!showLeft) [leftPanel setHidden:YES];
             if (!showRight) [rightPanel setHidden:YES];
-        }];
+        }
     }
     
-    if ([sc selectedSegment] == 1)
-    {
-        [splitHorizontalView toggleBottomView:[sc isSelectedForSegment:1]];
-    }
+    [splitHorizontalView toggleBottomView:[sc isSelectedForSegment:1]];
+}
+
+- (IBAction) pressedPanelVisibility:(id)sender
+{
+    [self updatePanelVisibilityAnimated:YES];
+    [self saveLayoutState];
 }
 
 - (int) uniqueSequenceIdFromSequences:(NSArray*) seqs
