@@ -1116,15 +1116,15 @@ CA
                                         <rect key="frame" x="0.0" y="250" width="250" height="428"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES"/>
                                         <subviews>
-                                            <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2008">
-                                                <rect key="frame" x="0.0" y="16" width="250" height="398"/>
+                                            <scrollView fixedFrame="YES" borderType="line" autohidesScrollers="YES" horizontalLineScroll="18" horizontalPageScroll="10" verticalLineScroll="18" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2008">
+                                                <rect key="frame" x="0.0" y="16" width="250" height="392"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                <clipView key="contentView" copiesOnScroll="NO" id="kMV-jq-ZBQ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="250" height="398"/>
+                                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="kMV-jq-ZBQ">
+                                                    <rect key="frame" x="1" y="1" width="248" height="390"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="16" indentationPerLevel="13" autoresizesOutlineColumn="YES" outlineTableColumn="2012" id="2011" customClass="ResourceManagerOutlineView">
-                                                            <rect key="frame" x="0.0" y="0.0" width="250" height="398"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="248" height="390"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="windowBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1138,13 +1138,14 @@ CA
                                                                     <textFieldCell key="dataCell" controlSize="small" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Text" id="2013" customClass="CCBTextFieldCell">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 </tableColumn>
                                                             </tableColumns>
                                                         </outlineView>
                                                     </subviews>
+                                                    <nil key="backgroundColor"/>
                                                 </clipView>
                                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="2010">
                                                     <rect key="frame" x="-100" y="-100" width="353" height="11"/>
@@ -1156,7 +1157,7 @@ CA
                                                 </scroller>
                                             </scrollView>
                                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2006">
-                                                <rect key="frame" x="0.0" y="412" width="250" height="16"/>
+                                                <rect key="frame" x="0.0" y="410" width="250" height="18"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                 <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" allowsUndo="NO" sendsActionOnEndEditing="YES" borderStyle="border" alignment="left" title="Project" id="2015">
                                                     <font key="font" metaFont="smallSystem"/>
@@ -1169,8 +1170,8 @@ CA
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                             </box>
                                             <popUpButton fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2003">
-                                                <rect key="frame" x="15" y="1" width="45" height="15"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <rect key="frame" x="205" y="1" width="45" height="15"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                                 <popUpButtonCell key="cell" type="bevel" title="Item 1" bezelStyle="regularSquare" imagePosition="only" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" arrowPosition="noArrow" preferredEdge="maxY" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="2020" id="2016">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="message"/>
@@ -1263,7 +1264,7 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
-                                                        <tableColumn identifier="structure" width="234" minWidth="120" maxWidth="480" id="571">
+                                                        <tableColumn identifier="structure" width="214" minWidth="120" maxWidth="480" id="571">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Structure">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -1275,7 +1276,7 @@ CA
                                                             </textFieldCell>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                         </tableColumn>
-                                                        <tableColumn identifier="expander" width="16" minWidth="16" maxWidth="16" id="1545">
+                                                        <tableColumn identifier="expander" width="21" minWidth="21" maxWidth="21" id="1545">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Expander">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -1285,7 +1286,7 @@ CA
                                                             </customCell>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                         </tableColumn>
-                                                        <tableColumn identifier="sequencer" width="318" minWidth="10" maxWidth="3.4028234663852886e+38" id="1541">
+                                                        <tableColumn identifier="sequencer" width="310" minWidth="10" maxWidth="3.4028234663852886e+38" id="1541">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Sequencer">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
