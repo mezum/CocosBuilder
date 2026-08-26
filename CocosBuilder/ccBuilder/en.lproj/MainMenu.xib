@@ -1204,10 +1204,6 @@ CA
                                     <real value="250"/>
                                 </holdingPriorities>
                             </splitView>
-                            <box autoresizesSubviews="NO" horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Tw5-X4-Myz">
-                                <rect key="frame" x="248" y="0.0" width="5" height="680"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                            </box>
                         </subviews>
                     </customView>
                     <splitView fixedFrame="YES" dividerStyle="thin" translatesAutoresizingMaskIntoConstraints="NO" id="1530" userLabel="Center HorSplit Panel" customClass="CCBSplitHorizontalView">
