@@ -153,7 +153,8 @@
 - (void) setTimelineOffset:(float)to
 {
     // Check min value
-    if (to < 0) to = 0;
+    float minOffset = [[SequencerHandler sharedHandler] minTimelineOffset];
+    if (to < minOffset) to = minOffset;
     
     // Check max value
     float maxOffset = [[SequencerHandler sharedHandler] maxTimelineOffset];

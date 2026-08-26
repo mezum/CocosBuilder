@@ -81,8 +81,8 @@
 {
     [super drawRect:dirtyRect];
     
-    SequencerSequence* seq = [SequencerHandler sharedHandler].currentSequence;
-    float xPos = [seq timeToPosition:seq.timelineLength];
+    SequencerHandler* sh = [SequencerHandler sharedHandler];
+    SequencerSequence* seq = sh.currentSequence;
     
     // Where the dope sheet column actually starts; the hierarchy column can be
     // resized, so this is not a fixed offset.
@@ -90,12 +90,23 @@
     CGFloat dopeEdge = (dopeColumn < 0) ? 0 : [self rectOfColumn:dopeColumn].origin.x;
     if (!imgEndmarker) imgEndmarker = [[NSImage imageNamed:@"seq-endmarker.png"] retain];
     if (!imgStartmarker) imgStartmarker = [[NSImage imageNamed:@"seq-startmarker.png"] retain];
-    [imgEndmarker drawInRect:NSMakeRect(xPos+dopeEdge, 0, 32, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
     
-    float xStartPos = [seq timeToPosition:0] -TIMELINE_PAD_PIXELS;
+    // The markers shade what is out of reach, which is the padding beyond the
+    // few frames of slack the timeline scrolls past its ends - not the slack
+    // itself. The rows run through that, so the dope sheet stays continuous all
+    // the way to both edges.
+    float slack = [sh timelineScrollSlack];
+    float height = self.bounds.size.height;
+    
     [[NSGraphicsContext currentContext] saveGraphicsState];
-    NSRectClip(NSMakeRect(dopeEdge, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height));
-    [imgStartmarker drawInRect:NSMakeRect(dopeEdge+xStartPos, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    NSRectClip(NSMakeRect(dopeEdge, 0, self.bounds.size.width - dopeEdge, height));
+    
+    float xEndPos = [seq timeToPosition:seq.timelineLength + slack];
+    [imgEndmarker drawInRect:NSMakeRect(dopeEdge+xEndPos, 0, 32, height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    
+    float xStartPos = [seq timeToPosition:-slack];
+    [imgStartmarker drawInRect:NSMakeRect(dopeEdge+xStartPos-(TIMELINE_PAD_PIXELS+1), 0, TIMELINE_PAD_PIXELS+1, height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
+    
     [[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 

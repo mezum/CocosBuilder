@@ -144,50 +144,80 @@ static SequencerHandler* sharedSequencerHandler;
     return (column.width-2*TIMELINE_PAD_PIXELS)/currentSequence.timelineScale;
 }
 
+// Scrolling used to stop dead on the first and the last frame, which left the
+// keyframes sitting on them half covered by the start/end markers and awkward
+// to hit. Let the timeline run a few frames past either end instead.
+- (float) timelineScrollSlack
+{
+    float resolution = currentSequence.timelineResolution;
+    if (resolution <= 0) return 0;
+
+    return kCCBSeqScrollSlackFrames / resolution;
+}
+
+- (float) minTimelineOffset
+{
+    return -[self timelineScrollSlack];
+}
+
 - (float) maxTimelineOffset
 {
     float visibleTime = [self visibleTimeArea];
-    return max(currentSequence.timelineLength - visibleTime, 0);
+    float slack = [self timelineScrollSlack];
+
+    return max(currentSequence.timelineLength + slack - visibleTime, -slack);
 }
 
 - (void) updateScroller
 {
     float visibleTime = [self visibleTimeArea];
-    float maxTimeScroll = currentSequence.timelineLength - visibleTime;
-    
-    float proportion = visibleTime/currentSequence.timelineLength;
-    
-    scroller.knobProportion = proportion;
-    scroller.doubleValue = currentSequence.timelineOffset / maxTimeScroll;
-    
-    if (proportion < 1)
+    float minOffset = [self minTimelineOffset];
+    float maxOffset = [self maxTimelineOffset];
+
+    // Opening a document, resizing the window or zooming can leave the offset
+    // outside the range - a timeline short enough to fit is pinned to the slack
+    // in front of it. Setting it clamps it and redraws, which lands here again
+    // with the offset in range.
+    float offset = currentSequence.timelineOffset;
+    if (offset < minOffset || offset > maxOffset)
     {
-        [scroller setEnabled:YES];
+        currentSequence.timelineOffset = offset;
+        return;
     }
-    else
-    {
-        [scroller setEnabled:NO];
-    }
+
+    // The offsets the knob can travel between, and the time the whole slot
+    // covers - the scrollable range plus the part that is on screen.
+    float scrollableTime = maxOffset - minOffset;
+    float totalTime = scrollableTime + visibleTime;
+
+    scroller.knobProportion = (totalTime > 0) ? visibleTime/totalTime : 1;
+    scroller.doubleValue = (scrollableTime > 0) ? (offset - minOffset)/scrollableTime : 0;
+
+    [scroller setEnabled:(scrollableTime > 0)];
 }
 
 - (void) updateScrollerToShowCurrentTime
 {
     float visibleTime = [self visibleTimeArea];
-    float maxTimeScroll = [self maxTimelineOffset];
+    float offset = currentSequence.timelineOffset;
     float timelinePosition = currentSequence.timelinePosition;
-    if (maxTimeScroll > 0)
+
+    if ([self maxTimelineOffset] <= [self minTimelineOffset]) return;
+
+    if (timelinePosition < offset)
     {
-        float minVisibleTime = scroller.doubleValue*(currentSequence.timelineLength-visibleTime);
-        float maxVisibleTime = scroller.doubleValue*(currentSequence.timelineLength-visibleTime) + visibleTime;
-        
-        if (timelinePosition < minVisibleTime) {
-            scroller.doubleValue = timelinePosition/(currentSequence.timelineLength-visibleTime);
-            currentSequence.timelineOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
-        } else if (timelinePosition > maxVisibleTime) {
-            scroller.doubleValue = (timelinePosition-visibleTime)/(currentSequence.timelineLength-visibleTime);
-            currentSequence.timelineOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
-        }
+        currentSequence.timelineOffset = timelinePosition;
     }
+    else if (timelinePosition > offset + visibleTime)
+    {
+        currentSequence.timelineOffset = timelinePosition - visibleTime;
+    }
+    else
+    {
+        return;
+    }
+
+    [self updateScroller];
 }
 
 - (void) setScroller:(NSScroller *)s
@@ -207,8 +237,9 @@ static SequencerHandler* sharedSequencerHandler;
 - (void) scrollerUpdated:(id)sender
 {
     float newOffset = currentSequence.timelineOffset;
-    float visibleTime = [self visibleTimeArea];
-    
+    float minOffset = [self minTimelineOffset];
+    float scrollableTime = [self maxTimelineOffset] - minOffset;
+
     switch ([scroller hitPart]) {
         case NSScrollerNoPart:
             break;
@@ -216,7 +247,7 @@ static SequencerHandler* sharedSequencerHandler;
             newOffset -= 300 / currentSequence.timelineScale;
             break;
         case NSScrollerKnob:
-            newOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+            newOffset = minOffset + scroller.doubleValue * scrollableTime;
             break;
         case NSScrollerIncrementPage:
             newOffset += 300 / currentSequence.timelineScale;
@@ -228,7 +259,7 @@ static SequencerHandler* sharedSequencerHandler;
             newOffset += 20 / currentSequence.timelineScale;
             break;
         case NSScrollerKnobSlot:
-            newOffset = scroller.doubleValue * (currentSequence.timelineLength - visibleTime);
+            newOffset = minOffset + scroller.doubleValue * scrollableTime;
             break;
         default:
             break;

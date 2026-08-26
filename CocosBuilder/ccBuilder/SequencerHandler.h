@@ -29,6 +29,10 @@
 #define kCCBDefaultTimelineScale 128
 #define kCCBTimelineScaleLowBound 64
 
+// How far past the first and the last frame the timeline can be scrolled, so
+// the keyframes on them do not end up jammed against the edge of the view.
+#define kCCBSeqScrollSlackFrames 3
+
 @class CocosBuilderAppDelegate;
 @class SequencerSequence;
 @class SequencerScrubberSelectionView;
@@ -93,6 +97,8 @@
 - (void) updateScaleSlider;
 
 - (float) visibleTimeArea;
+- (float) timelineScrollSlack;
+- (float) minTimelineOffset;
 - (float) maxTimelineOffset;
 
 - (void) deleteSequenceId:(int)seqId;

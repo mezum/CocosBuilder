@@ -105,7 +105,12 @@
             // Major marker
             [imgMarkMajor drawAtPoint:NSMakePoint(xPos, 0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
             
-            [self drawNumber:secondMarker at:NSMakePoint(xPos+3, 1)];
+            // The timeline can be scrolled a little past its start, and the
+            // ruler has no glyph for a minus sign.
+            if (secondMarker >= 0)
+            {
+                [self drawNumber:secondMarker at:NSMakePoint(xPos+3, 1)];
+            }
             
             secondMarker++;
         }
@@ -119,12 +124,17 @@
         xPos+=stepSize;
     }
     
+    // The markers shade what is out of reach, which is the padding beyond the
+    // few frames of slack the timeline scrolls past its ends - not the slack
+    // itself, so the ruler lines up with the rows below it.
+    float slack = [[SequencerHandler sharedHandler] timelineScrollSlack];
+
     // Draw end marker
-    xPos = roundf([seq timeToPosition: seq.timelineLength]);
+    xPos = roundf([seq timeToPosition: seq.timelineLength + slack]);
     [imgEndmarker drawAtPoint:NSMakePoint(xPos, 0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
 
     // draw start marker
-    float xStartPos = [seq timeToPosition:0] - TIMELINE_PAD_PIXELS;
+    float xStartPos = [seq timeToPosition:-slack] - TIMELINE_PAD_PIXELS;
     [[NSGraphicsContext currentContext] saveGraphicsState];
     NSRectClip(NSMakeRect(0, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height));
     [imgStartmarker drawInRect:NSMakeRect(xStartPos, 0, TIMELINE_PAD_PIXELS+1, self.bounds.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
