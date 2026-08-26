@@ -712,6 +712,13 @@ static SequencerHandler* sharedSequencerHandler;
     if (reload) {
         [outlineHierarchy reloadData];
     }
+    else {
+        // The keyframes and easing bars are drawn by SequencerCell inside the
+        // outline view, positioned through -[SequencerSequence timeToPosition:].
+        // Scrolling or zooming the timeline changes that mapping, so the rows
+        // have to be repainted even when the node graph itself is unchanged.
+        [outlineHierarchy setNeedsDisplay:YES];
+    }
 }
 
 - (void) redrawTimeline
