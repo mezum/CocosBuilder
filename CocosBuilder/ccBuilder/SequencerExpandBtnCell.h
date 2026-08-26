@@ -35,8 +35,6 @@
     BOOL canExpand;
     
     CCNode* node;
-    BOOL imagesLoaded;
-    NSImage* imgRowBgChannel;
 }
 
 

@@ -100,20 +100,10 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    if (!imagesLoaded)
-    {
-        imgRowBgChannel = [[NSImage imageNamed:@"seq-row-channel-bg.png"] retain];
-        imagesLoaded = YES;
-    }
-    
-    if (!node)
-    {
-        NSRect rowRect = NSMakeRect(cellFrame.origin.x, cellFrame.origin.y, cellFrame.size.width, kCCBSeqDefaultRowHeight);
-        [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
-        //[super drawWithFrame:cellFrame inView:controlView];
-        return;
-    }
-    
+    // Channel rows (callbacks, sound effects) have nothing to expand. They used
+    // to paint seq-row-channel-bg here, a light bitmap from the old theme that
+    // showed up as a pale block in the column; leave the row background alone.
+    if (!node) return;
     
     if (canExpand)
     {

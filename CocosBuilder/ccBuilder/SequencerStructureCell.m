@@ -35,16 +35,8 @@
 
 - (void) drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
-    if (!imagesLoaded)
-    {
-        imgRowBgChannel = [[NSImage imageNamed:@"seq-row-channel-bg.png"] retain];
-        imagesLoaded = YES;
-    }
-    
     if (!node)
     {
-        // NSRect rowRect = NSMakeRect(0, /*cellFrame.origin.x,*/ cellFrame.origin.y, cellFrame.size.width+16, kCCBSeqDefaultRowHeight);
-        // [imgRowBgChannel drawInRect:rowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1];
         [super drawWithFrame:cellFrame inView:controlView];
         return;
     }
@@ -145,7 +137,6 @@
 - (void) dealloc
 {
     //self.node = NULL;
-    [imgRowBgChannel release];
     [super dealloc];
 }
 
