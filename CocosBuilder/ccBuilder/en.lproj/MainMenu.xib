@@ -1204,18 +1204,22 @@ CA
                                     <real value="250"/>
                                 </holdingPriorities>
                             </splitView>
+                            <box autoresizesSubviews="NO" horizontalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Tw5-X4-Myz">
+                                <rect key="frame" x="248" y="0.0" width="5" height="680"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
+                            </box>
                         </subviews>
                     </customView>
                     <splitView fixedFrame="YES" dividerStyle="thin" translatesAutoresizingMaskIntoConstraints="NO" id="1530" userLabel="Center HorSplit Panel" customClass="CCBSplitHorizontalView">
-                        <rect key="frame" x="250" y="0.0" width="601" height="678"/>
+                        <rect key="frame" x="251" y="0.0" width="600" height="678"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <customView fixedFrame="YES" id="1531" userLabel="Cocos container View">
-                                <rect key="frame" x="0.0" y="0.0" width="601" height="549"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="549"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <openGLView wantsLayer="YES" fixedFrame="YES" colorSize="8bit_RGB_8bit_Alpha" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" translatesAutoresizingMaskIntoConstraints="NO" id="603" customClass="CCBGLView">
-                                        <rect key="frame" x="0.0" y="0.0" width="601" height="549"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="549"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <connections>
                                             <outlet property="appDelegate" destination="494" id="1348"/>
@@ -1224,11 +1228,11 @@ CA
                                 </subviews>
                             </customView>
                             <customView fixedFrame="YES" id="1532" userLabel="Timeline View">
-                                <rect key="frame" x="0.0" y="550" width="601" height="128"/>
+                                <rect key="frame" x="0.0" y="550" width="600" height="128"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <imageView hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1533">
-                                        <rect key="frame" x="0.0" y="97" width="601" height="32"/>
+                                        <rect key="frame" x="0.0" y="97" width="600" height="32"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageAlignment="topLeft" imageScaling="axesIndependently" id="1534"/>
                                     </imageView>
@@ -1336,20 +1340,20 @@ CA
                                         </popUpButtonCell>
                                     </popUpButton>
                                     <scrollView fixedFrame="YES" borderType="none" autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="566" userLabel="Scroll View - Outline View">
-                                        <rect key="frame" x="0.0" y="16" width="601" height="66"/>
+                                        <rect key="frame" x="0.0" y="16" width="600" height="66"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <clipView key="contentView" copiesOnScroll="NO" id="JL4-0o-MHU">
-                                            <rect key="frame" x="0.0" y="0.0" width="601" height="66"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
-                                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" indentationPerLevel="13" autoresizesOutlineColumn="NO" outlineTableColumn="571" id="570" customClass="SequencerOutlineView">
-                                                    <rect key="frame" x="0.0" y="0.0" width="601" height="66"/>
+                                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" autosaveColumns="NO" rowHeight="14" indentationPerLevel="13" outlineTableColumn="571" id="570" customClass="SequencerOutlineView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="66"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <size key="intercellSpacing" width="0.0" height="2"/>
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     <color key="gridColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
                                                     <tableColumns>
-                                                        <tableColumn identifier="structure" width="234" minWidth="234" maxWidth="234" id="571">
+                                                        <tableColumn identifier="structure" width="234" minWidth="120" maxWidth="480" id="571">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Structure">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -1371,7 +1375,7 @@ CA
                                                             </customCell>
                                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                         </tableColumn>
-                                                        <tableColumn identifier="sequencer" width="319" minWidth="10" maxWidth="3.4028234663852886e+38" id="1541">
+                                                        <tableColumn identifier="sequencer" width="318" minWidth="10" maxWidth="3.4028234663852886e+38" id="1541">
                                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Sequencer">
                                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -1386,7 +1390,7 @@ CA
                                             </subviews>
                                         </clipView>
                                         <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="YES" id="569">
-                                            <rect key="frame" x="0.0" y="26" width="501" height="11"/>
+                                            <rect key="frame" x="0.0" y="51" width="600" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
                                         <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" controlSize="small" horizontal="NO" id="567">
@@ -1442,7 +1446,7 @@ CA
                                         </connections>
                                     </segmentedControl>
                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1557">
-                                        <rect key="frame" x="509" y="106" width="86" height="17"/>
+                                        <rect key="frame" x="508" y="106" width="86" height="17"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" alignment="center" title="00:00:00" drawsBackground="YES" id="1558">
                                             <font key="font" size="13" name="Menlo-Regular"/>
@@ -1451,7 +1455,7 @@ CA
                                         </textFieldCell>
                                     </textField>
                                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1597">
-                                        <rect key="frame" x="508" y="96" width="88" height="31"/>
+                                        <rect key="frame" x="507" y="96" width="88" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <buttonCell key="cell" type="bevel" bezelStyle="rounded" alignment="center" transparent="YES" imageScaling="proportionallyDown" inset="2" id="1598">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1462,32 +1466,32 @@ CA
                                         </connections>
                                     </button>
                                     <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1566">
-                                        <rect key="frame" x="386" y="96" width="117" height="31"/>
+                                        <rect key="frame" x="385" y="96" width="117" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="seq-scaleslide-bg" id="1567"/>
                                     </imageView>
                                     <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1564">
-                                        <rect key="frame" x="394" y="109" width="101" height="12"/>
+                                        <rect key="frame" x="393" y="109" width="101" height="12"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                         <sliderCell key="cell" controlSize="mini" continuous="YES" state="on" alignment="left" minValue="32" maxValue="512" doubleValue="128" tickMarkPosition="below" sliderType="linear" id="1565"/>
                                     </slider>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1543" customClass="NSScroller">
-                                        <rect key="frame" x="250" y="0.0" width="351" height="16"/>
+                                        <rect key="frame" x="250" y="0.0" width="350" height="16"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                     </customView>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1554" customClass="SequencerTimelineView">
-                                        <rect key="frame" x="250" y="83" width="351" height="14"/>
+                                        <rect key="frame" x="250" y="83" width="350" height="14"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     </customView>
                                     <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1561" customClass="SequencerScrubberSelectionView">
-                                        <rect key="frame" x="250" y="15" width="351" height="83"/>
+                                        <rect key="frame" x="250" y="15" width="350" height="83"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </customView>
                                     <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="1544">
-                                        <rect key="frame" x="0.0" y="15" width="601" height="1"/>
+                                        <rect key="frame" x="0.0" y="15" width="600" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" id="9yk-Nh-yR8">
-                                            <rect key="frame" x="1" y="0.0" width="599" height="1"/>
+                                            <rect key="frame" x="1" y="0.0" width="598" height="1"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                         <color key="borderColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
@@ -1514,10 +1518,10 @@ CA
                                         <font key="titleFont" metaFont="system"/>
                                     </box>
                                     <box autoresizesSubviews="NO" fixedFrame="YES" boxType="custom" borderType="line" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="1552">
-                                        <rect key="frame" x="0.0" y="82" width="601" height="1"/>
+                                        <rect key="frame" x="0.0" y="82" width="600" height="1"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                         <view key="contentView" id="gPv-Rz-Al6">
-                                            <rect key="frame" x="1" y="0.0" width="599" height="1"/>
+                                            <rect key="frame" x="1" y="0.0" width="598" height="1"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                         <color key="borderColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
@@ -1542,7 +1546,7 @@ CA
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="605">
                                 <rect key="frame" x="0.0" y="0.0" width="300" height="680"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES"/>
-                                <clipView key="contentView" copiesOnScroll="NO" id="ylG-JA-qx6">
+                                <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="ylG-JA-qx6">
                                     <rect key="frame" x="1" y="1" width="298" height="678"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -1641,6 +1645,8 @@ CA
         <customObject id="494" customClass="CocosBuilderAppDelegate">
             <connections>
                 <outlet property="cocosView" destination="603" id="604"/>
+                <outlet property="dopeSheetDivider" destination="1550" id="2101"/>
+                <outlet property="hierarchyDivider" destination="1551" id="2102"/>
                 <outlet property="inspectorScroll" destination="605" id="1039"/>
                 <outlet property="lblTimeline" destination="1237" id="1586"/>
                 <outlet property="lblTimelineChained" destination="1666" id="1687"/>
@@ -1671,9 +1677,9 @@ CA
                 <outlet property="splitHorizontalView" destination="1530" id="1793"/>
                 <outlet property="tabBar" destination="1233" id="1234"/>
                 <outlet property="timeDisplay" destination="1557" id="1563"/>
-                <outlet property="timelineView" destination="1554" id="2100"/>
                 <outlet property="timeScaleSlider" destination="1564" id="1568"/>
                 <outlet property="timelineScroller" destination="1543" id="1569"/>
+                <outlet property="timelineView" destination="1554" id="2100"/>
                 <outlet property="toolbar" destination="1224" id="1755"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>

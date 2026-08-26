@@ -109,16 +109,22 @@
 
 // A thin grab area along a side panel's inner edge. Dragging it hands the new
 // width to the app delegate, which lays the three columns out again.
+enum {
+    kCCBResizeLeftPanel,
+    kCCBResizeRightPanel,
+    kCCBResizeHierarchy,
+};
+
 @interface CCBPanelResizeHandle : NSView
 {
-    BOOL resizesLeftPanel;
+    int resizeTarget;
 }
-@property (nonatomic, assign) BOOL resizesLeftPanel;
+@property (nonatomic, assign) int resizeTarget;
 @end
 
 @implementation CCBPanelResizeHandle
 
-@synthesize resizesLeftPanel;
+@synthesize resizeTarget;
 
 - (void) resetCursorRects
 {
@@ -133,10 +139,21 @@
 - (void) mouseDragged:(NSEvent*)event
 {
     CocosBuilderAppDelegate* appDelegate = [CocosBuilderAppDelegate appDelegate];
+    
+    if (resizeTarget == kCCBResizeHierarchy)
+    {
+        // Measured in the timeline's own coordinates, since that is where the
+        // dope sheet starts.
+        NSView* timeline = [self superview];
+        CGFloat x = [timeline convertPoint:[event locationInWindow] fromView:NULL].x;
+        [appDelegate setDopeSheetEdge:x];
+        return;
+    }
+    
     NSView* container = [[appDelegate window] contentView];
     CGFloat x = [container convertPoint:[event locationInWindow] fromView:NULL].x;
     
-    if (resizesLeftPanel)
+    if (resizeTarget == kCCBResizeLeftPanel)
     {
         [appDelegate setLeftPanelWidth:x];
     }
@@ -225,11 +242,14 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
     sequenceHandler = [[SequencerHandler alloc] initWithOutlineView:outlineHierarchy];
     sequenceHandler.scrubberSelectionView = scrubberSelectionView;
     sequenceHandler.timelineView = timelineView;
+    sequenceHandler.dopeSheetDivider = dopeSheetDivider;
+    sequenceHandler.hierarchyDivider = hierarchyDivider;
     sequenceHandler.timeDisplay = timeDisplay;
     sequenceHandler.timeScaleSlider = timeScaleSlider;
     sequenceHandler.scroller = timelineScroller;
     sequenceHandler.scrollView = sequenceScrollView;
     
+    [sequenceHandler updateTimelineLayout];
     [self updateTimelineMenu];
     [sequenceHandler updateScaleSlider];
 }
@@ -388,7 +408,7 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
                                                     0,
                                                     kCCBPanelResizeHandleWidth,
                                                     [leftPanel bounds].size.height)] autorelease];
-    [leftHandle setResizesLeftPanel:YES];
+    [leftHandle setResizeTarget:kCCBResizeLeftPanel];
     [leftHandle setAutoresizingMask:NSViewMinXMargin | NSViewHeightSizable];
     [leftPanel addSubview:leftHandle];
     
@@ -397,9 +417,30 @@ static CocosBuilderAppDelegate* sharedAppDelegate;
                                                      0,
                                                      kCCBPanelResizeHandleWidth,
                                                      [rightPanel bounds].size.height)] autorelease];
-    [rightHandle setResizesLeftPanel:NO];
+    [rightHandle setResizeTarget:kCCBResizeRightPanel];
     [rightHandle setAutoresizingMask:NSViewMaxXMargin | NSViewHeightSizable];
     [rightPanel addSubview:rightHandle];
+    
+    // And one over the divider between the hierarchy and the dope sheet.
+    NSView* timeline = [dopeSheetDivider superview];
+    hierarchyResizeHandle = [[CCBPanelResizeHandle alloc] initWithFrame:
+                             NSMakeRect(0, 0, kCCBPanelResizeHandleWidth, [timeline bounds].size.height)];
+    [hierarchyResizeHandle setResizeTarget:kCCBResizeHierarchy];
+    [hierarchyResizeHandle setAutoresizingMask:NSViewHeightSizable];
+    [timeline addSubview:hierarchyResizeHandle];
+    [self positionHierarchyResizeHandleAt:NSMinX([dopeSheetDivider frame])];
+}
+
+- (void) positionHierarchyResizeHandleAt:(CGFloat)x
+{
+    NSRect frame = [hierarchyResizeHandle frame];
+    frame.origin.x = x - kCCBPanelResizeHandleWidth / 2;
+    [hierarchyResizeHandle setFrame:frame];
+}
+
+- (void) setDopeSheetEdge:(CGFloat)x
+{
+    [sequenceHandler setDopeSheetEdge:x];
 }
 
 // The three columns are laid out by hand (the panels are plain views, not split

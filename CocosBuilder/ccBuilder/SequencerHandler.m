@@ -55,6 +55,8 @@ static SequencerHandler* sharedSequencerHandler;
 @synthesize currentSequence;
 @synthesize scrubberSelectionView;
 @synthesize timelineView;
+@synthesize dopeSheetDivider;
+@synthesize hierarchyDivider;
 @synthesize timeDisplay;
 @synthesize outlineHierarchy;
 @synthesize timeScaleSlider;
@@ -84,6 +86,11 @@ static SequencerHandler* sharedSequencerHandler;
     // divider in front of the dope sheet; letting the outline column resize
     // itself to the indentation would push it over that line.
     [outlineHierarchy setAutoresizesOutlineColumn:NO];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(hierarchyColumnDidResize:)
+                                                 name:NSTableViewColumnDidResizeNotification
+                                               object:outlineHierarchy];
     
     [[[outlineHierarchy outlineTableColumn] dataCell] setEditable:YES];
     
@@ -629,6 +636,69 @@ static SequencerHandler* sharedSequencerHandler;
 
 #pragma mark Timeline
 
+// Dragging the divider resizes the hierarchy column. Work in deltas so the
+// padding NSOutlineView adds around its outline column does not have to be
+// modelled here.
+- (void) setDopeSheetEdge:(CGFloat)x
+{
+    NSInteger dopeColumn = [outlineHierarchy columnWithIdentifier:@"sequencer"];
+    if (dopeColumn < 0) return;
+    
+    NSTableColumn* column = [outlineHierarchy tableColumnWithIdentifier:@"structure"];
+    CGFloat delta = x - [outlineHierarchy rectOfColumn:dopeColumn].origin.x;
+    if (delta == 0) return;
+    
+    [column setWidth:[column width] + delta];
+    [self updateTimelineLayout];
+}
+
+- (void) hierarchyColumnDidResize:(NSNotification*)notification
+{
+    [self updateTimelineLayout];
+}
+
+// The dope sheet is a column of the same outline view as the hierarchy, but the
+// scrubber, the ruler, the scroller and the two hairlines are siblings laid out
+// over it at fixed positions in the nib. NSOutlineView also pads its outline
+// column for the disclosure triangles, so the column does not start where its
+// width alone suggests. Read the real column positions back and line everything
+// up with them, which also lets the hierarchy column be resized.
+- (void) updateTimelineLayout
+{
+    NSInteger dopeColumn = [outlineHierarchy columnWithIdentifier:@"sequencer"];
+    NSInteger expanderColumn = [outlineHierarchy columnWithIdentifier:@"expander"];
+    if (dopeColumn < 0 || expanderColumn < 0) return;
+    
+    CGFloat dopeEdge = [outlineHierarchy rectOfColumn:dopeColumn].origin.x;
+    CGFloat hierarchyEdge = [outlineHierarchy rectOfColumn:expanderColumn].origin.x;
+    
+    // These all run from the divider to the right hand end of the timeline.
+    NSArray* stretched = [NSArray arrayWithObjects:scrubberSelectionView, timelineView, scroller, nil];
+    for (NSView* view in stretched)
+    {
+        NSRect frame = [view frame];
+        CGFloat rightEdge = NSMaxX(frame);
+        if (rightEdge <= dopeEdge) continue;
+        
+        frame.size.width = rightEdge - dopeEdge;
+        frame.origin.x = dopeEdge;
+        [view setFrame:frame];
+        [view setNeedsDisplay:YES];
+    }
+    
+    // The hairlines keep their width and sit just left of the column they mark.
+    NSRect frame = [dopeSheetDivider frame];
+    frame.origin.x = dopeEdge - frame.size.width;
+    [dopeSheetDivider setFrame:frame];
+    
+    frame = [hierarchyDivider frame];
+    frame.origin.x = hierarchyEdge - frame.size.width;
+    [hierarchyDivider setFrame:frame];
+    
+    [[CocosBuilderAppDelegate appDelegate] positionHierarchyResizeHandleAt:dopeEdge];
+    [[dopeSheetDivider superview] setNeedsDisplay:YES];
+}
+
 - (void) redrawTimeline:(BOOL) reload
 {
     [scrubberSelectionView setNeedsDisplay:YES];
@@ -891,6 +961,8 @@ static SequencerHandler* sharedSequencerHandler;
 
 - (void) dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     self.currentSequence = NULL;
     self.scrubberSelectionView = NULL;
     self.timeDisplay = NULL;
