@@ -142,7 +142,7 @@
             [bundle load];
             
             PlugInExport* plugIn = [[[PlugInExport alloc] initWithBundle:bundle] autorelease];
-            if (plugIn)
+            if (plugIn.extension)
             {
                 NSString* plugInName = [[plugInPath lastPathComponent] stringByDeletingPathExtension];
                 plugIn.pluginName = plugInName;
